@@ -50,7 +50,7 @@ body {
 
     color: var(--navbar-text);
 
-    padding: 10px;
+    padding: 10px 0;
 
     height: 35px;
 }
@@ -85,10 +85,16 @@ body {
 .link{
     border-left: 2px solid var(--navbar-border);
     border-right: 2px solid var(--navbar-border);
+    border-radius: 5px;
+
+    padding: 0 5px;
 }
 
 .link2{
     border-right: 2px solid var(--navbar-border);
+    border-radius: 5px;
+
+    padding: 0 5px;
 }
 
 .menu a:hover{
@@ -111,10 +117,11 @@ body {
     
     border-left: 2px solid var(--navbar-border);
     border-right: 2px solid var(--navbar-border);
+    border-radius: 5px;
 
     padding: 0 10px;
 
-    height: 40px;
+    height: 35px;
 }
 
 .admin{
@@ -171,6 +178,9 @@ body {
 
 .menu a.active {
     background-color: var(--navbar-border);
+
+    border-radius: 5px;
+
     color: var(--navbar-active-text);
 }
 
