@@ -147,7 +147,6 @@ body {
     background-color: var(--surface);
 
     display: flex;
-    justify-content: center;
     align-items: center;
 
     border: 1px solid var(--border);
@@ -159,9 +158,19 @@ body {
     height: 100px;
 
     min-width: 0;
+
+    transition: transform 0.2s ease;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.cards:hover{
+    transform: translateY(-3px);
 }
 
 .cards_svg {
+    margin-left: 30px;
+
     padding: 10px;
 
     border-radius: 15px;
