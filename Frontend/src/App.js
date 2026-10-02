@@ -1,9 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar'
+import ModalNewProduct from './components/models/ModalNewProduct'
 
 import Dashboard from './pages/Dashboard';
-import Products from './pages/NewProduct';
+import Products from './pages//NewProduct';
 
 import './App.css';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/products" element={<Products />} />
 
           <Route path="/login" element={<Dashboard />} />
+          <Route path="/testes" element={<ModalNewProduct />} />
         </Routes>
       </div>
 

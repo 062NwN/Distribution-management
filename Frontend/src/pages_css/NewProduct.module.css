@@ -294,8 +294,6 @@ body {
     width: 500px;
     height: 20px;
 
-    background-color: var(--background);
-
     min-width: 0;
 }
 
