@@ -1,9 +1,14 @@
+import { useState } from 'react'
+
 import { FiCalendar, FiBell, FiBox, FiPlus, FiInfo, FiAlertTriangle, FiImage, FiSearch, FiTrash, FiEdit3 } from "react-icons/fi";
 
 import Styles from '../pages_css/NewProduct.module.css';
+import ModalNewProduct from '../components/models/ModalNewProduct';
 
 function NewProduct() {
     const date = new Date();
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const dataFormatada = date.toLocaleDateString('pt-BR', {
         day: '2-digit',
@@ -83,7 +88,7 @@ function NewProduct() {
                     <select>
                         <option value='todos os status'>Todos os status</option>
                     </select>
-                    <button><FiPlus /> Novo Produto</button>
+                    <button onClick={() => setModalOpen(true)}><FiPlus /> Novo Produto</button>
                 </div>
                 <div className={Styles.table_container}>
                     <table className={Styles.products_table}>
@@ -136,7 +141,7 @@ function NewProduct() {
                                     </div>
                                 </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -146,6 +151,12 @@ function NewProduct() {
                     <span>Gestão de produtos e estoque</span>
                 </div>
             </article>
+
+            {modalOpen && (
+                <ModalNewProduct
+                    onClose={() => setModalOpen(false)}
+                />
+            )}
         </section>
     )
 }
