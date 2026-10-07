@@ -1,0 +1,99 @@
+:root {
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --primary-light: #DBEAFE;
+
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+
+    --success: #16A34A;
+    --success-light: #DCFCE7;
+
+    --warning: #D97706;
+    --warning-light: #FEF3C7;
+
+    --danger: #DC2626;
+    --danger-light: #FEE2E2;
+
+    --svg-blue: #DBEAFE;
+    --svg-green: #DCFCE7;
+    --svg-purple: #EDE9FE;
+    --svg-orange: #FEF3C7;
+    --svg-red: #FEE2E2;
+    --svg-cyan: #E0F2FE;
+    --svg-pink: #FCE7F3;
+    --svg-gray: #F1F5F9;
+
+    --card-blue-bg: #2563EB;
+    --card-green-bg: #16A34A;
+    --card-purple-bg: #7C3AED;
+    --card-orange-bg: #D97706;
+    --card-red-bg: #DC2626;
+    --card-cyan-bg: #0284C7;
+    --card-pink-bg: #DB2777;
+    --card-gray-bg: #475569;
+
+    --bg-geral: #0f172a0c;
+}
+
+.container{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.26);
+    animation: fadeIn 0.2s ease forwards;
+}
+
+.confirm{
+    margin: auto;
+    margin-top: 40vh;
+    width: 350px;
+    height: 120px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    background-color: var(--surface);
+    overflow: hidden;
+    animation: modalOpen 0.25s ease forwards;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.confirmBtn{
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--success);
+}
+
+.confirmBtn:hover{
+    background-color: var(--success);
+    color: var(--surface);
+}
+
+.cancelBtn{
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--danger);
+}
+
+.cancelBtn:hover{
+    background: rgba(220, 38, 38, 1);
+    color: var(--surface);
+}

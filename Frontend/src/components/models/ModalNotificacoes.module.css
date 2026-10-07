@@ -1,0 +1,219 @@
+.modalContainer {
+    position: fixed;
+
+    top: 10px;
+    right: 350px;
+
+    width: 300px;
+
+    z-index: 1000;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background-color: var(--surface);
+
+    overflow: hidden;
+
+    opacity: 1;
+    transform: translateY(0);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.close {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+
+/* CONTEÚDO QUE ROLA */
+.modal {
+    max-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+/* HEADER */
+.modalHeader {
+    position: sticky;
+    top: 0;
+
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 8px 16px;
+
+    background-color: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.modalHeader h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+.modalHeader button {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--text-secondary);
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.modalHeader button:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+
+
+/* LISTA */
+.notificacoesList {
+    margin: 0;
+    padding: 8px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    list-style: none;
+}
+
+
+/* NOTIFICAÇÃO */
+.notificacao {
+    flex-shrink: 0;
+
+    margin: 0;
+
+    padding: 12px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background-color: var(--surface);
+    color: var(--text-primary);
+
+    list-style: none;
+}
+
+
+/* FOOTER */
+.modalFooter {
+    position: sticky;
+    bottom: 0;
+
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 8px 16px;
+
+    background-color: var(--surface);
+
+    border-top: 1px solid var(--border);
+}
+
+.modalFooter button {
+    width: 100%;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: var(--primary);
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.modalFooter button:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+
+/* SUCESSO */
+.success {
+    background-color: var(--success-light);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+
+/* ERRO */
+.error {
+    background-color: var(--danger-light);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+
+/* AVISO */
+.warning {
+    background-color: var(--warning-light);
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+
+/* SCROLLBAR */
+.modal::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
