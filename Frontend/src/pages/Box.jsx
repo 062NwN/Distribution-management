@@ -132,20 +132,22 @@ function Box() {
 
     function confirmarCompra() {
         if(carrinho.length >= 1) {
-            if(method !== "") {
+            if(method !== '') {
                 setCompraConfirmada(true);
             } else {
                 mostrarNotificacao(
-                    'Error... Selecione um método de pagamento para continuar!',
-                    'error'
+                    "Erro, selecione um método de pagamento para continuar!",
+                    "error"
                 )
+                return;
             }
         } else {
             mostrarNotificacao(
-                'Error... Adicione um produto ao carrinho para continuar!',
-                'error'
+                "Erro, adicione um produto ao carrinho para continuar!",
+                "error"
             )
-        }
+            return;
+        }   
     }
 
     return (

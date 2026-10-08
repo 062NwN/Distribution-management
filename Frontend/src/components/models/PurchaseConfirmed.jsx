@@ -70,10 +70,10 @@ function PurchaseConfirmed({
                     setMensagemError(data.mensagem);
                     setError(true);
 
-                    const resError = data.mensagem.toString();
+                    const error = data.mensagem;
 
                     mostrarNotificacao(
-                        "Error, " + resError,
+                        "Erro, " + error.toString(),
                         "error"
                     )
 

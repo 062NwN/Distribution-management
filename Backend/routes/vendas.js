@@ -69,7 +69,7 @@ router.post('/', async (req, res) => {
 
             if (!responseEstoque.ok) {
                 return res.status(500).json({
-                    mensagem: `Não foi possível atualizar o estoque de ${produtoBanco.nome}.`
+                    mensagem: `Não foi possível atualizar o estoque de ${produto.nome}.`
                 });
             }
         }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiX } from "react-icons/fi";
 
 import Styles from './ModalNewProduct.module.css';
@@ -14,6 +14,8 @@ import Control from './pagesModel/Control';
 import Loading from '../Loading';
 
 function ModalNewProduct({ onClose, onProductCreated }) {
+    const salvando = useRef(false);
+
     const [active, setActive] = useState(0);
 
     const [closing, setClosing] = useState(false);
@@ -112,8 +114,6 @@ function ModalNewProduct({ onClose, onProductCreated }) {
 
     async function newProduct() {
 
-        setLoading(true);
-
         const custoTotal =
             parseFloat(precoCoompra || 0) +
             parseFloat(precoAdicional || 0);
@@ -188,8 +188,6 @@ function ModalNewProduct({ onClose, onProductCreated }) {
             console.error("Erro ao cadastrar produto:", error);
 
             return false;
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -369,21 +367,40 @@ function ModalNewProduct({ onClose, onProductCreated }) {
                     )}
 
                     <button
+                        type="button"
                         className={Styles.continue}
+                        disabled={loading}
                         onClick={async () => {
                             if (active < 5) {
-                                setActive(active + 1);
-                                return
-                            } else {
+                                setActive(prev => prev + 1);
+                                return;
+                            }
+
+                            // Trava imediata contra cliques repetidos
+                            if (salvando.current) {
+                                return;
+                            }
+
+                            salvando.current = true;
+                            setLoading(true);
+
+                            try {
                                 const cadastrado = await newProduct();
 
                                 if (cadastrado) {
                                     handleClose();
                                 }
+                            } finally {
+                                salvando.current = false;
+                                setLoading(false);
                             }
                         }}
                     >
-                        {active < 5 ? 'Continuar' : 'Cadastrar'}
+                        {loading
+                            ? "Cadastrando..."
+                            : active < 5
+                                ? "Continuar"
+                                : "Cadastrar"}
                     </button>
                 </div>
 
