@@ -111,7 +111,6 @@ function ModalNewProduct({ onClose, onProductCreated }) {
             .catch((err) => console.log(err));
     }, []);
 
-
     async function newProduct() {
 
         const custoTotal =
@@ -370,14 +369,16 @@ function ModalNewProduct({ onClose, onProductCreated }) {
                         type="button"
                         className={Styles.continue}
                         disabled={loading}
-                        onClick={async () => {
+                        onClick={async (event) => {
+                            event.preventDefault();
+
                             if (active < 5) {
-                                setActive(prev => prev + 1);
+                                setActive((prev) => prev + 1);
                                 return;
                             }
 
-                            // Trava imediata contra cliques repetidos
                             if (salvando.current) {
+                                console.warn("Cadastro já está em andamento.");
                                 return;
                             }
 
@@ -389,9 +390,13 @@ function ModalNewProduct({ onClose, onProductCreated }) {
 
                                 if (cadastrado) {
                                     handleClose();
+                                } else {
+                                    salvando.current = false;
                                 }
-                            } finally {
+                            } catch (error) {
+                                console.error("Erro ao cadastrar:", error);
                                 salvando.current = false;
+                            } finally {
                                 setLoading(false);
                             }
                         }}
