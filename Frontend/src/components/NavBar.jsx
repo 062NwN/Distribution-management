@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { FiHome, FiBox, FiChevronRight, FiInbox } from 'react-icons/fi';
+import { FiHome, FiBox, FiChevronRight, FiInbox, FiShoppingCart, FiShoppingBag } from 'react-icons/fi';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { FaBell, FaBellSlash } from "react-icons/fa";
 
@@ -96,8 +96,18 @@ function NavBar() {
                             className={({ isActive }) =>
                                 `${Styles.home} ${isActive ? Styles.active : ''}`
                             }>
-                            <FiBox />
+                            <FiShoppingCart />
                             Produtos
+                        </NavLink>
+                    </div>
+
+                    <div className={Styles.link2}>
+                        <NavLink to="/stock"
+                            className={({ isActive }) =>
+                                `${Styles.home} ${isActive ? Styles.active : ''}`
+                            }>
+                            <FiBox />
+                            Estoque
                         </NavLink>
                     </div>
 
@@ -108,6 +118,16 @@ function NavBar() {
                             }>
                             <FiInbox />
                             Caixa
+                        </NavLink>
+                    </div>
+
+                    <div className={Styles.link2}>
+                        <NavLink to="/#"
+                            className={({ isActive }) =>
+                                `${Styles.home} ${isActive ? Styles.active : ''}`
+                            }>
+                            <FiShoppingBag />
+                            Vendas
                         </NavLink>
                     </div>
 
