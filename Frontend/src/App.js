@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import ModalNotificacoes from './components/models/ModalNotificacoes';
+import Testes from './components/models/PurchaseConfirmed';
 
 import Dashboard from './pages/Dashboard';
 import Products from './pages//NewProduct';
@@ -23,7 +23,7 @@ function App() {
           <Route path="/box" element={<Box />} />
 
           <Route path="/login" element={<Dashboard />} />
-          <Route path="/testes" element={<ModalNotificacoes />} />
+          <Route path="/testes" element={<Testes />} />
         </Routes>
       </div>
 

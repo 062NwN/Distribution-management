@@ -11,6 +11,8 @@ import Stock from './pagesModel/Stock';
 import Tax from './pagesModel/Tax';
 import Control from './pagesModel/Control';
 
+import Loading from '../Loading';
+
 function ModalNewProduct({ onClose, onProductCreated }) {
     const [active, setActive] = useState(0);
 
@@ -67,6 +69,8 @@ function ModalNewProduct({ onClose, onProductCreated }) {
 
     const [unidadeMedidaCP, setUnidadeMedidaCP] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     function handleClose() {
         setClosing(true);
 
@@ -107,6 +111,8 @@ function ModalNewProduct({ onClose, onProductCreated }) {
 
 
     async function newProduct() {
+
+        setLoading(true);
 
         const custoTotal =
             parseFloat(precoCoompra || 0) +
@@ -182,6 +188,8 @@ function ModalNewProduct({ onClose, onProductCreated }) {
             console.error("Erro ao cadastrar produto:", error);
 
             return false;
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -380,6 +388,10 @@ function ModalNewProduct({ onClose, onProductCreated }) {
                 </div>
 
             </section>
+
+            {loading && (
+                <Loading />
+            )}
 
         </div>
     );

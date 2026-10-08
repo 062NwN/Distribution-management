@@ -11,9 +11,12 @@ import ModalConfirm from '../components/models/ModalConfirm';
 import ModalEditProduct from '../components/models/ModalEditProduct';
 
 import Notifications from '../components/Notifications';
+
 import salvarNotificacao from '../components/functions/salvarNotificacao';
 
 import FilterProducts from '../components/FilterProducts';
+
+import Loading from '../components/Loading';
 
 function NewProduct() {
     const date = new Date();
@@ -28,6 +31,8 @@ function NewProduct() {
 
     const [editOpen, setEditOpen] = useState(false);
     const [produtoEditando, setProdutoEditando] = useState(null);
+
+    const [loading, setLoading] = useState(false);
 
     function confirmDelete(id) {
         setProdutoSelecionado(id);
@@ -56,6 +61,8 @@ function NewProduct() {
     }
 
     async function handleUpdateProduct(produtoAtualizado) {
+        setLoading(true);
+
         try {
             const response = await fetch(
                 `http://localhost:8081/produtos/${produtoAtualizado.id}`,
@@ -99,6 +106,8 @@ function NewProduct() {
                 "Erro ao atualizar produto.",
                 "error"
             );
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -123,6 +132,8 @@ function NewProduct() {
     }, []);
 
     async function deletProduct(id) {
+        setLoading(true);
+        
         try {
             const response = await fetch(
                 `http://localhost:8081/produtos/${id}`,
@@ -154,6 +165,8 @@ function NewProduct() {
             );
 
             return false;
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -206,10 +219,10 @@ function NewProduct() {
     const [categoria, setCategoria] = useState('');
 
     const produtosFiltrados = FilterProducts(produto, {
-    busca,
-    categoria,
-    status: filterStatus
-});
+        busca,
+        categoria,
+        status: filterStatus
+    });
 
     const mostrarNotificacao = (mensagem, tipo) => {
         setNotification({ mensagem, tipo });
@@ -415,6 +428,10 @@ function NewProduct() {
                     }}
                     onSave={handleUpdateProduct}
                 />
+            )}
+
+            {loading && (
+                <Loading />
             )}
 
             <Notifications notification={notification} />
