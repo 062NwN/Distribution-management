@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
             // Não permite estoque negativo
             if (novoEstoque < 0) {
                 return res.status(400).json({
-                    mensagem: `Estoque insuficiente para ${produto.nome}.`
+                    mensagem: `Estoque insuficiente para ${produtoBanco.nome}.`
                 });
             }
 
@@ -69,7 +69,7 @@ router.post('/', async (req, res) => {
 
             if (!responseEstoque.ok) {
                 return res.status(500).json({
-                    mensagem: `Não foi possível atualizar o estoque de ${produto.nome}.`
+                    mensagem: `Não foi possível atualizar o estoque de ${produtoBanco.nome}.`
                 });
             }
         }

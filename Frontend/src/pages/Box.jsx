@@ -130,6 +130,24 @@ function Box() {
         0
     );
 
+    function confirmarCompra() {
+        if(carrinho.length >= 1) {
+            if(method !== "") {
+                setCompraConfirmada(true);
+            } else {
+                mostrarNotificacao(
+                    'Error... Selecione um método de pagamento para continuar!',
+                    'error'
+                )
+            }
+        } else {
+            mostrarNotificacao(
+                'Error... Adicione um produto ao carrinho para continuar!',
+                'error'
+            )
+        }
+    }
+
     return (
         <section className={Styles.container}>
             <div className={Styles.container_header}>
@@ -305,7 +323,7 @@ function Box() {
                             setConfirm(true)
                         }}><FiTrash /> Limpar Carrinho</button>
                         <button onClick={() => setModalDiscount(true)}><FiTag /> Aplicar Desconto</button>
-                        <button><FiCreditCard /> Finalizar Venda</button>
+                        <button onClick={confirmarCompra}><FiCreditCard /> Finalizar Venda</button>
                     </div>
                 </div>
 
@@ -398,7 +416,7 @@ function Box() {
                         )}
 
                         <div className={Styles.end}>
-                            <button onClick={() => { setConfirmCompra(true) }}> <FiCreditCard /> Finalizar Venda </button>
+                            <button onClick={confirmarCompra}> <FiCreditCard /> Finalizar Venda </button>
                             <button className={Styles.button} onClick={() => setDesconto(0)}> <PiBroom /> Desconto </button>
                         </div>
                     </div>

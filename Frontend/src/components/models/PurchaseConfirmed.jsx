@@ -70,8 +70,10 @@ function PurchaseConfirmed({
                     setMensagemError(data.mensagem);
                     setError(true);
 
+                    const resError = data.mensagem.toString();
+
                     mostrarNotificacao(
-                        "Erro, selecione pelo menos um produto para vender.",
+                        "Error, " + resError,
                         "error"
                     )
 
