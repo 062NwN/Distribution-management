@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { FiCalendar, FiBell, FiBox, FiPlus, FiInfo, FiAlertTriangle, FiImage, FiSearch, FiTrash, FiEdit3 } from "react-icons/fi";
+import { FiCalendar, FiBell, FiBox, FiPlus, FiTrendingUp, FiBarChart, FiImage, FiSearch, FiTrash, FiEdit3 } from "react-icons/fi";
 
 import Styles from '../pages_css/NewProduct.module.css';
 
@@ -181,20 +181,27 @@ function NewProduct() {
         return produtos.status === "ativo";
     });
 
-    const estoqueBaixo = produto.filter((produtos) => {
-        const estoque = Number(produtos.total_estoque);
-        const minimo = Number(produtos.estoque_minimo)
+    const margem = produto.reduce((total, p) => {
+        const precoVenda = Number(p.preco_venda) || 0;
+        const custoTotal = Number(p.custo_total) || 0;
+    
+        const margemProduto = precoVenda > 0 ? ((precoVenda - custoTotal) / precoVenda) * 100 : 0;
+    
+        return total + margemProduto;
+    }, 0);
 
-        return estoque > 0 && estoque <= minimo;
-    });
+    const margemMedia = produto.length > 0 ? margem / produto.length : 0;
 
-    const esgotados = produto.filter((produtos) => {
-        return produtos.total_estoque <= 0;
-    });
+    const totalInvestido = produto.reduce((total, p) => {
+        const precoCompra = Number(p.preco_compra) || 0;
+        const precoAdicional = Number(p.preco_adicional) || 0;
 
-    const produtosEstoqueBaixo = estoqueBaixo.length;
+        const totalSoma = precoAdicional + precoCompra;
+
+        return total + totalSoma;
+    }, 0)
+
     const qtdProdutosAtivos = ProdutosAtivos.length;
-    const produtosEsgotados = esgotados.length;
 
     const [notification, setNotification] = useState(null);
 
@@ -270,21 +277,21 @@ function NewProduct() {
 
                 <div className={Styles.cards}>
                     <div className={Styles.cards_svg}>
-                        <FiInfo />
+                        <FiTrendingUp />
                     </div>
                     <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Estoque Baixo</h4>
-                        <h3 className={Styles.cards_value}>{produtosEstoqueBaixo}</h3>
+                        <h4 className={Styles.cards_title}>Média Margem Lucro</h4>
+                        <h3 className={Styles.cards_value}>{margemMedia.toFixed(2) + '%'}</h3>
                     </div>
                 </div>
 
                 <div className={Styles.cards}>
                     <div className={Styles.cards_svg}>
-                        <FiAlertTriangle />
+                        <FiBarChart  />
                     </div>
                     <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Produtos Esgotados </h4>
-                        <h3 className={Styles.cards_value}>{produtosEsgotados}</h3>
+                        <h4 className={Styles.cards_title}>Investimento</h4>
+                        <h3 className={Styles.cards_value}>{'R$ ' + totalInvestido.toFixed(2)}</h3>
                     </div>
                 </div>
             </article>
@@ -296,7 +303,7 @@ function NewProduct() {
                         <input
                             className={Styles.input_search}
                             type='text'
-                            placeholder='Pesquise por nome, SKU, código de barras, categorias ou subcategorias'
+                            placeholder='Pesquise por nome, SKU, código de barras, categorias ou subcategorias...'
                             value={busca}
                             onChange={(e) => setBusca(e.target.value)}
                         />
