@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import Testes from './components/models/PurchaseConfirmed';
+import Testes from './components/models/ModalStock';
 
 import Dashboard from './pages/Dashboard';
 import Products from './pages//NewProduct';

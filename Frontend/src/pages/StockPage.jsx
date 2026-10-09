@@ -7,6 +7,12 @@ import FilterProducts from '../components/FilterProducts';
 
 import Select from '../pagesComponents/Select';
 
+import ModalEditEstoque from '../components/models/ModalStock';
+
+import Notifications from '../components/Notifications';
+
+import salvarNotificacao from '../components/functions/salvarNotificacao';
+
 function StockPage() {
     const [produtos, setProduto] = useState([]);
     const [totalProdutos, setTotalProdutos] = useState(0);
@@ -15,6 +21,27 @@ function StockPage() {
 
     const [filterStatus, setFilterStatus] = useState('');
     const [categoria, setCategoria] = useState('');
+
+    const [editarEstoque, setEditarEstoque] = useState(false);
+    const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+
+    const [notification, setNotification] = useState(null);
+
+    async function carregarProdutos() {
+        try {
+            const response = await fetch("http://localhost:8081/produtos");
+    
+            if (!response.ok) {
+                throw new Error("Erro ao carregar produtos.");
+            }
+    
+            const data = await response.json();
+    
+            setProduto(data.produtos);
+        } catch (error) {
+            console.error("Erro ao atualizar a lista:", error);
+        }
+    }
 
     const verificarStatus = (produto) => {
         const estoque = Number(produto.total_estoque);
@@ -91,6 +118,16 @@ function StockPage() {
                 .filter(Boolean)
         )
     ];
+
+    const mostrarNotificacao = (mensagem, tipo) => {
+        setNotification({ mensagem, tipo });
+
+        salvarNotificacao(mensagem, tipo);
+
+        setTimeout(() => {
+            setNotification(null);
+        }, 2500);
+    };
 
     return (
         <section className={Styles.container_page}>
@@ -228,7 +265,17 @@ function StockPage() {
                                                 {verificarStatus(produto)}
                                             </span>
                                         </td>
-                                        <td><button><FiRefreshCcw /></button></td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setProdutoSelecionado(produto);
+                                                    setEditarEstoque(true);
+                                                }}
+                                            >
+                                                <FiRefreshCcw />
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -242,6 +289,20 @@ function StockPage() {
                     </div>
                 </div>
             </div>
+
+            {editarEstoque && produtoSelecionado && (
+                <ModalEditEstoque
+                    produto={produtoSelecionado}
+                    onAtualizar={carregarProdutos}
+                    mostrarNotificacao={mostrarNotificacao}
+                    onClose={() => {
+                        setEditarEstoque(false);
+                        setProdutoSelecionado(null);
+                    }}
+                />
+            )}
+
+            <Notifications notification={notification} />
         </section>
     )
 }

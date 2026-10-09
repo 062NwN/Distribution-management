@@ -466,6 +466,9 @@ input:focus {
 .table_container button {
     width: 27px;
     height: 27px;
+
+    background-color: var(--primary-light);
+    color: var(--primary);
 }
 
 .status_active {
@@ -543,7 +546,7 @@ input:focus {
 
 .footer p,
 .footer span {
-    margin-top: auto;
+    margin: 0;
 }
 
 .footer span {

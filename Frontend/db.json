@@ -1,4 +1,102 @@
 {
+  "movimentacoes_estoque": [
+    {
+      "produto_id": "jouJAO4Icvc",
+      "produto_nome": "CERVEJA HEINEKEN LONG NECK (330ML)",
+      "tipo": "ENTRADA",
+      "quantidade": 1,
+      "estoque_anterior": 0,
+      "estoque_posterior": 1,
+      "motivo": "Compra não registrada",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:46:30.104Z",
+      "id": "-hicsAJ2uJA"
+    },
+    {
+      "produto_id": "jouJAO4Icvc",
+      "produto_nome": "CERVEJA HEINEKEN LONG NECK (330ML)",
+      "tipo": "ENTRADA",
+      "quantidade": 2,
+      "estoque_anterior": 1,
+      "estoque_posterior": 3,
+      "motivo": "Compra não registrada",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:46:48.723Z",
+      "id": "F3GwreHvheg"
+    },
+    {
+      "produto_id": "1leZ9TIbKN0",
+      "produto_nome": "COCA-COLA FARDO 2L",
+      "tipo": "ENTRADA",
+      "quantidade": 2,
+      "estoque_anterior": 0,
+      "estoque_posterior": 2,
+      "motivo": "Compra não registrada",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:48:54.451Z",
+      "id": "RhsWxh1T8H0"
+    },
+    {
+      "produto_id": "jouJAO4Icvc",
+      "produto_nome": "CERVEJA HEINEKEN LONG NECK (330ML)",
+      "tipo": "SAIDA",
+      "quantidade": 1,
+      "estoque_anterior": 3,
+      "estoque_posterior": 2,
+      "motivo": "Produto danificado",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:50:09.078Z",
+      "id": "2HCsGXMkxEI"
+    },
+    {
+      "produto_id": "1dOfF0h4OLs",
+      "produto_nome": "COCA-COLA 2L",
+      "tipo": "ENTRADA",
+      "quantidade": 25,
+      "estoque_anterior": 0,
+      "estoque_posterior": 25,
+      "motivo": "Entrada por bonificação",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:50:24.285Z",
+      "id": "_Ne4c_AljGs"
+    },
+    {
+      "produto_id": "1dOfF0h4OLs",
+      "produto_nome": "COCA-COLA 2L",
+      "tipo": "SAIDA",
+      "quantidade": 25,
+      "estoque_anterior": 25,
+      "estoque_posterior": 0,
+      "motivo": "Venda não registrada",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T19:50:36.254Z",
+      "id": "85yezXqDLNE"
+    },
+    {
+      "produto_id": "1leZ9TIbKN0",
+      "produto_nome": "COCA-COLA FARDO 2L",
+      "tipo": "ENTRADA",
+      "quantidade": 20,
+      "estoque_anterior": 2,
+      "estoque_posterior": 22,
+      "motivo": "Ajuste de inventário",
+      "descricao": "Quero colocar e pronto",
+      "data_movimentacao": "2026-10-09T20:11:34.402Z",
+      "id": "w1XmfUGzcoc"
+    },
+    {
+      "produto_id": "1leZ9TIbKN0",
+      "produto_nome": "COCA-COLA FARDO 2L",
+      "tipo": "SAIDA",
+      "quantidade": 20,
+      "estoque_anterior": 22,
+      "estoque_posterior": 2,
+      "motivo": "Uso interno",
+      "descricao": "",
+      "data_movimentacao": "2026-10-09T20:20:04.443Z",
+      "id": "xSS0nTrZthM"
+    }
+  ],
   "vendas": [
     {
       "produtos": [
@@ -135,154 +233,369 @@
   ],
   "notificacoes": [
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Erro, adicione um produto ao carrinho para continuar!",
+      "tipo": "error",
+      "date": "2026-10-09T18:57:24.919Z",
+      "id": "mTXQYG50Mj4"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:35:59.587Z",
+      "id": "2J3H-x0Letw"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:00.791Z",
+      "id": "xR4QQp90Wuo"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:00.962Z",
+      "id": "-JqUlvmsyjw"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:01.132Z",
+      "id": "edveiZtqr6s"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:01.298Z",
+      "id": "WotEim4O8q8"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:01.452Z",
+      "id": "ZaGPmQNGuBc"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:03.803Z",
+      "id": "rDzw8Wh3jxM"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:04.403Z",
+      "id": "0bw59NXrqic"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:04.562Z",
+      "id": "4eHZEEIHhd8"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:04.732Z",
+      "id": "uURNJ2zx_nU"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:36:04.882Z",
+      "id": "3OSQ0fcBVsw"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:56.791Z",
+      "id": "fPOHEHju-Dk"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:57.221Z",
+      "id": "tEZt0xYB8nQ"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:57.391Z",
+      "id": "K7iEGL0zP_w"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:57.561Z",
+      "id": "K403a36rYWM"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:57.721Z",
+      "id": "PEpwmASP9H0"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:57.881Z",
+      "id": "7wI6L-vYRlo"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:58.095Z",
+      "id": "IBB1oMiXWGI"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:58.180Z",
+      "id": "awcUHVdlujM"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:58.802Z",
+      "id": "Z_GgpA6UKjE"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:37:58.972Z",
+      "id": "Dnr1b1d4NWQ"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:46.728Z",
+      "id": "3Z3dThtkc1U"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:49.290Z",
+      "id": "KOFrKMNBXL0"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:49.758Z",
+      "id": "iMjiDDUMUTM"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:49.959Z",
+      "id": "-pRYkpoYkhQ"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:50.138Z",
+      "id": "1ax67qPAlSE"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:50.309Z",
+      "id": "djcWokhQXw0"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:52.849Z",
+      "id": "ijv8oEy0M3k"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:53.998Z",
+      "id": "meG1XZGXjXk"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:54.180Z",
+      "id": "3dTBFq44eBg"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:54.339Z",
+      "id": "kqpVI3yIbh8"
+    },
+    {
+      "mensagem": "Estoque insuficiente.",
+      "tipo": "error",
+      "date": "2026-10-09T19:38:55.970Z",
+      "id": "JSkcX6H-4sw"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:39:06.150Z",
+      "id": "vnZkxc7JnVk"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:33.642Z",
+      "id": "lcp5HJRnp_0"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:37.440Z",
+      "id": "nmtFK7qPVvU"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:43.460Z",
+      "id": "XOVHh8NxK-4"
+    },
+    {
+      "mensagem": "Estoque insuficiente.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:47.869Z",
+      "id": "Qp53EVvmNUE"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:53.139Z",
+      "id": "5DtTkwgUp7Y"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:41:57.929Z",
+      "id": "W0YQJlAKC2g"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:42:01.970Z",
+      "id": "Yw76mM_UsPs"
+    },
+    {
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:44:40.980Z",
+      "id": "aLo8zcJqwWU"
+    },
+    {
+      "mensagem": "Estoque insuficiente.",
+      "tipo": "error",
+      "date": "2026-10-09T19:44:44.328Z",
+      "id": "6IuGrlyOxB8"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:44:50.998Z",
+      "id": "JPbeb5Laads"
+    },
+    {
+      "mensagem": "Não foi possível concluir a movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T19:44:55.659Z",
+      "id": "07W-aXliQSY"
+    },
+    {
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T19:46:19.079Z",
+      "id": "m-r_MXKivYQ"
+    },
+    {
+      "mensagem": "Estoque insuficiente.",
+      "tipo": "error",
+      "date": "2026-10-09T19:46:25.000Z",
+      "id": "QM6IDCkfhyM"
+    },
+    {
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:24:13.706Z",
-      "id": "Wf2WDn28_3I"
+      "date": "2026-10-09T19:46:30.128Z",
+      "id": "qdJelFEV_r0"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:24:39.055Z",
-      "id": "uA-Sa9e88t8"
+      "date": "2026-10-09T19:46:48.749Z",
+      "id": "ptIxotuAQ7A"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:24:50.359Z",
-      "id": "rkqnbUL-7VA"
+      "date": "2026-10-09T19:48:54.659Z",
+      "id": "LK6PM2gK9sM"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:25:04.406Z",
-      "id": "hOonUZuRiHQ"
+      "date": "2026-10-09T19:50:09.296Z",
+      "id": "F0g18obutYk"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:25:23.355Z",
-      "id": "OlYvWOUnybk"
+      "date": "2026-10-09T19:50:24.327Z",
+      "id": "nQl4nudCbBA"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:25:39.235Z",
-      "id": "FyII9uvYxSM"
+      "date": "2026-10-09T19:50:36.277Z",
+      "id": "HRxZu7qUFgM"
     },
     {
-      "mensagem": "Produto atualizado com sucesso!",
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T20:10:59.131Z",
+      "id": "m85D9bam4Y8"
+    },
+    {
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T12:25:57.641Z",
-      "id": "AR4MlhXwjxk"
+      "date": "2026-10-09T20:11:34.444Z",
+      "id": "0Qo_i1JLEdQ"
     },
     {
-      "mensagem": "Produto cadastrado com sucesso!",
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T20:19:58.020Z",
+      "id": "CI4RqGXpfvE"
+    },
+    {
+      "mensagem": "Estoque atualizado e movimentação registrada!",
       "tipo": "success",
-      "date": "2026-10-09T13:40:52.024Z",
-      "id": "H6Vuph-Toq0"
+      "date": "2026-10-09T20:20:04.464Z",
+      "id": "2p-iZmIH5-4"
     },
     {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:41:00.575Z",
-      "id": "6I_fwy9BQUI"
+      "mensagem": "Selecione o motivo da movimentação.",
+      "tipo": "error",
+      "date": "2026-10-09T20:21:51.154Z",
+      "id": "ruw9zRYqFoY"
     },
     {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:48:32.510Z",
-      "id": "a0ogcohsQhc"
+      "mensagem": "Informe uma quantidade inteira válida.",
+      "tipo": "error",
+      "date": "2026-10-09T20:22:30.783Z",
+      "id": "BIurNbo85uE"
     },
     {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:48:34.059Z",
-      "id": "c1epCrDLWCA"
+      "mensagem": "Coloque uma quantidade válida!",
+      "date": "2026-10-09T20:23:43.042Z",
+      "id": "xTJYoQ6ILl8"
     },
     {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:48:38.820Z",
-      "id": "CZZCNxoa8gc"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:48:45.028Z",
-      "id": "O-6YE05L_wo"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:48:47.252Z",
-      "id": "NPNxQNn4KxA"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:48:49.219Z",
-      "id": "fA_nPGhEvVE"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T13:48:51.739Z",
-      "id": "zO5Iv-6yntc"
-    },
-    {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:48:59.658Z",
-      "id": "Kw4rsrgkXrU"
-    },
-    {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:58:08.961Z",
-      "id": "qyjo5bKhn_A"
-    },
-    {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:58:11.728Z",
-      "id": "G8qENaF0hC0"
-    },
-    {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:58:14.040Z",
-      "id": "wOhGUkMWJy8"
-    },
-    {
-      "mensagem": "Produto deletado com sucesso!",
-      "tipo": "warning",
-      "date": "2026-10-09T13:58:15.740Z",
-      "id": "4jMlurgoqdk"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T14:02:29.973Z",
-      "id": "aeisVEg4kIE"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T14:02:32.025Z",
-      "id": "lfTzO5NTPFk"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T14:02:34.236Z",
-      "id": "KUXk0Zfnwys"
-    },
-    {
-      "mensagem": "Produto cadastrado com sucesso!",
-      "tipo": "success",
-      "date": "2026-10-09T14:02:36.720Z",
-      "id": "AVqbl1d07qE"
+      "mensagem": "Coloque uma quantidade válida!",
+      "tipo": "error",
+      "date": "2026-10-09T20:23:58.732Z",
+      "id": "2es9qZbdc6k"
     }
   ],
   "produtos": [
@@ -294,7 +607,7 @@
       "descricao": "Fardo de Refrigerante de cola, gaseificado e refrescante",
       "marca": "Coca-Cola",
       "categoria": "BEBIDAS",
-      "subcategoria": "Refrigerantes",
+      "subcategoria": "REFRIGENTES",
       "unidade_medida": "FD",
       "fator_conversao": "6",
       "tipo_produto": "Produtos para revenda",
@@ -322,8 +635,8 @@
       "frete": "50",
       "condicao_pagamento": "15 dias",
       "data_criacao": "2026-10-05T02:33:13.048Z",
-      "data_alteracao": "2026-10-09T12:24:50.295Z",
-      "total_estoque": 0,
+      "data_alteracao": "2026-10-09T20:20:04.422Z",
+      "total_estoque": 2,
       "status": "ativo",
       "id": "1leZ9TIbKN0"
     },
@@ -335,7 +648,7 @@
       "descricao": "Refrigerante Coca-cola 2L em garrafa pet",
       "marca": "Coca-cola",
       "categoria": "BEBIDAS",
-      "subcategoria": "Refrigerantes",
+      "subcategoria": "REFRIGENTES",
       "unidade_medida": "LT",
       "fator_conversao": "12",
       "tipo_produto": "Produtos para revenda",
@@ -363,7 +676,7 @@
       "frete": "20",
       "condicao_pagamento": "30 Dias",
       "data_criacao": "2026-10-05T18:54:39.680Z",
-      "data_alteracao": "2026-10-09T12:24:13.659Z",
+      "data_alteracao": "2026-10-09T19:50:36.242Z",
       "total_estoque": 0,
       "status": "ativo",
       "id": "1dOfF0h4OLs",
@@ -405,174 +718,10 @@
       "frete": "20",
       "condicao_pagamento": "30 Dias",
       "data_criacao": "2026-10-07T19:36:47.304Z",
-      "data_alteracao": "2026-10-09T12:25:57.595Z",
-      "total_estoque": 0,
+      "data_alteracao": "2026-10-09T19:50:09.062Z",
+      "total_estoque": 2,
       "status": "ativo",
       "id": "jouJAO4Icvc"
-    },
-    {
-      "imagem": null,
-      "nome": "",
-      "sku": "",
-      "codigo_barras": "",
-      "descricao": "",
-      "marca": "",
-      "categoria": "",
-      "subcategoria": "",
-      "unidade_medida": "",
-      "fator_conversao": "",
-      "tipo_produto": "",
-      "estoque_inicial": "",
-      "estoque_minimo": "",
-      "data_fabricacao": "",
-      "data_validade": "",
-      "lote": "",
-      "preco_compra": "",
-      "preco_adicional": "",
-      "preco_venda": "",
-      "preco_promocional": "",
-      "custo_total": 0,
-      "margem_lucro": 0,
-      "ncm": "",
-      "cest": "",
-      "origem": "",
-      "cfop": "",
-      "cst": "",
-      "csosn": "",
-      "fornecedor": "",
-      "quantidade_minima_compra": "",
-      "unidade_medida_compra": "",
-      "quantidade_unidade_compra": "",
-      "frete": "",
-      "condicao_pagamento": "",
-      "data_criacao": "2026-10-09T14:02:29.943Z",
-      "data_alteracao": "2026-10-09T14:02:29.943Z",
-      "total_estoque": "",
-      "status": "ativo",
-      "id": "QiXIOOWaqag"
-    },
-    {
-      "imagem": null,
-      "nome": "",
-      "sku": "",
-      "codigo_barras": "",
-      "descricao": "",
-      "marca": "",
-      "categoria": "",
-      "subcategoria": "",
-      "unidade_medida": "",
-      "fator_conversao": "",
-      "tipo_produto": "",
-      "estoque_inicial": "",
-      "estoque_minimo": "",
-      "data_fabricacao": "",
-      "data_validade": "",
-      "lote": "",
-      "preco_compra": "",
-      "preco_adicional": "",
-      "preco_venda": "",
-      "preco_promocional": "",
-      "custo_total": 0,
-      "margem_lucro": 0,
-      "ncm": "",
-      "cest": "",
-      "origem": "",
-      "cfop": "",
-      "cst": "",
-      "csosn": "",
-      "fornecedor": "",
-      "quantidade_minima_compra": "",
-      "unidade_medida_compra": "",
-      "quantidade_unidade_compra": "",
-      "frete": "",
-      "condicao_pagamento": "",
-      "data_criacao": "2026-10-09T14:02:32.001Z",
-      "data_alteracao": "2026-10-09T14:02:32.001Z",
-      "total_estoque": "",
-      "status": "ativo",
-      "id": "et61liWCFHQ"
-    },
-    {
-      "imagem": null,
-      "nome": "",
-      "sku": "",
-      "codigo_barras": "",
-      "descricao": "",
-      "marca": "",
-      "categoria": "",
-      "subcategoria": "",
-      "unidade_medida": "",
-      "fator_conversao": "",
-      "tipo_produto": "",
-      "estoque_inicial": "",
-      "estoque_minimo": "",
-      "data_fabricacao": "",
-      "data_validade": "",
-      "lote": "",
-      "preco_compra": "",
-      "preco_adicional": "",
-      "preco_venda": "",
-      "preco_promocional": "",
-      "custo_total": 0,
-      "margem_lucro": 0,
-      "ncm": "",
-      "cest": "",
-      "origem": "",
-      "cfop": "",
-      "cst": "",
-      "csosn": "",
-      "fornecedor": "",
-      "quantidade_minima_compra": "",
-      "unidade_medida_compra": "",
-      "quantidade_unidade_compra": "",
-      "frete": "",
-      "condicao_pagamento": "",
-      "data_criacao": "2026-10-09T14:02:34.205Z",
-      "data_alteracao": "2026-10-09T14:02:34.205Z",
-      "total_estoque": "",
-      "status": "ativo",
-      "id": "1dDi5ivDg5w"
-    },
-    {
-      "imagem": null,
-      "nome": "",
-      "sku": "",
-      "codigo_barras": "",
-      "descricao": "",
-      "marca": "",
-      "categoria": "",
-      "subcategoria": "",
-      "unidade_medida": "",
-      "fator_conversao": "",
-      "tipo_produto": "",
-      "estoque_inicial": "",
-      "estoque_minimo": "",
-      "data_fabricacao": "",
-      "data_validade": "",
-      "lote": "",
-      "preco_compra": "",
-      "preco_adicional": "",
-      "preco_venda": "",
-      "preco_promocional": "",
-      "custo_total": 0,
-      "margem_lucro": 0,
-      "ncm": "",
-      "cest": "",
-      "origem": "",
-      "cfop": "",
-      "cst": "",
-      "csosn": "",
-      "fornecedor": "",
-      "quantidade_minima_compra": "",
-      "unidade_medida_compra": "",
-      "quantidade_unidade_compra": "",
-      "frete": "",
-      "condicao_pagamento": "",
-      "data_criacao": "2026-10-09T14:02:36.705Z",
-      "data_alteracao": "2026-10-09T14:02:36.705Z",
-      "total_estoque": "",
-      "status": "ativo",
-      "id": "0q_j5HTlQwU"
     }
   ],
   "unMedidaVD": [
