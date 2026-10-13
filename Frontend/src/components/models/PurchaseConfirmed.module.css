@@ -1,0 +1,204 @@
+.bg {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(201, 205, 215, 0.45);
+    backdrop-filter: blur(2px);
+
+    z-index: 9999;
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 360px;
+    min-height: 220px;
+
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border-radius: 16px;
+
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+
+    text-align: center;
+}
+
+/* Área do ícone / spinner */
+
+.spinner {
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loadingSpinner {
+    width: 52px;
+    height: 52px;
+
+    border: 5px solid #e2e8f0;
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+/* =========================
+   SUCESSO / ERRO
+========================= */
+
+.spinner h1 {
+    width: 70px;
+    height: 70px;
+
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    animation: confirm 0.5s ease-out;
+}
+
+.success {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+
+    border-radius: 50%;
+
+    background: #16a34a;
+    color: #ffffff;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    animation: confirm 0.5s ease-out;
+}
+
+.error {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+
+    border-radius: 50%;
+
+    background: #dc2626;
+    color: #ffffff;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    animation: error 0.5s ease-out;
+}
+
+/* =========================
+   MENSAGEM
+========================= */
+
+.container p {
+    max-width: 290px;
+
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+
+    animation: confirm 0.5s ease-out;
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes confirm {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    70% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes error {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    80% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

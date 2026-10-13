@@ -1,11 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import ModalNotificacoes from './components/models/ModalNotificacoes';
+import Testes from './components/models/ModalSales';
 
 import Dashboard from './pages/Dashboard';
 import Products from './pages//NewProduct';
 import Box from './pages/Box';
+import StockPage from './pages/StockPage';
+import Sales from './pages/Sales';
 
 import './App.css';
 
@@ -21,9 +23,11 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
           <Route path="/box" element={<Box />} />
+          <Route path="/stock" element={<StockPage />} />
+          <Route path="/sales" element={<Sales />} />
 
           <Route path="/login" element={<Dashboard />} />
-          <Route path="/testes" element={<ModalNotificacoes />} />
+          <Route path="/testes" element={<Testes />} />
         </Routes>
       </div>
 

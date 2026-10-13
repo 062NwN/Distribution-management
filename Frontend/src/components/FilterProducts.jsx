@@ -63,13 +63,15 @@ function FilterProducts(produtos, filtros) {
 
         if (busca2) {
             const texto = busca2.toLowerCase();
-
+        
             const correspondeBusca =
                 produto.nome?.toLowerCase().includes(texto) ||
                 produto.sku?.toLowerCase().includes(texto) ||
                 produto.codigo_barras?.toLowerCase().includes(texto);
-
-            if (!correspondeBusca) {
+        
+            const correspondeStatus = produto.status === 'ativo';
+        
+            if (!correspondeBusca || !correspondeStatus) {
                 return false;
             }
         }

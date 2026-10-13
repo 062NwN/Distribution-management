@@ -60,6 +60,7 @@ body {
     box-sizing: border-box;
 
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .header {
@@ -199,17 +200,17 @@ body {
 }
 
 .cards:nth-child(2) .cards_svg {
-    background-color: var(--card-green-bg);
+    background-color: var(--card-purple-bg);
     color: var(--svg-cyan);
 }
 
 .cards:nth-child(3) .cards_svg {
-    background-color: var(--card-orange-bg);
+    background-color: var(--card-green-bg);
     color: var(--svg-cyan);
 }
 
 .cards:nth-child(4) .cards_svg {
-    background-color: var(--card-red-bg);
+    background-color: var(--card-pink-bg);
     color: var(--svg-cyan);
 }
 

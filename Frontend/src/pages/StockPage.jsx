@@ -1,0 +1,321 @@
+import { useState, useEffect } from 'react';
+import { FiCalendar, FiBox, FiDatabase, FiAlertOctagon, FiAlertTriangle, FiSearch, FiRefreshCcw, FiImage } from 'react-icons/fi';
+
+import Styles from '../pages_css/StockPage.module.css';
+
+import FilterProducts from '../components/FilterProducts';
+
+import Select from '../pagesComponents/Select';
+
+import ModalEditEstoque from '../components/models/ModalStock';
+
+import Notifications from '../components/Notifications';
+
+import salvarNotificacao from '../components/functions/salvarNotificacao';
+
+function StockPage() {
+    const [produtos, setProduto] = useState([]);
+
+    const [pesquisa, setPesquisa] = useState('');
+
+    const [filterStatus, setFilterStatus] = useState('');
+    const [categoria, setCategoria] = useState('');
+
+    const [subcategoria, setSubcategoria] = useState('');
+
+    const [editarEstoque, setEditarEstoque] = useState(false);
+    const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+
+    const [notification, setNotification] = useState(null);
+
+    async function carregarProdutos() {
+        try {
+            const response = await fetch("http://localhost:8081/produtos");
+
+            if (!response.ok) {
+                throw new Error("Erro ao carregar produtos.");
+            }
+
+            const data = await response.json();
+
+            setProduto(data.produtos);
+        } catch (error) {
+            console.error("Erro ao atualizar a lista:", error);
+        }
+    }
+
+    const verificarStatus = (produto) => {
+        const estoque = Number(produto.total_estoque);
+        const minimo = Number(produto.estoque_minimo);
+
+        if (estoque <= 0) {
+            return 'Estoque Esgotado';
+        }
+
+        if (estoque <= minimo) {
+            return 'Estoque Baixo';
+        }
+
+        return 'Estoque Bom';
+    };
+
+    const statusOptions = [
+        'Estoque Bom',
+        'Estoque Baixo',
+        'Estoque Esgotado'
+    ];
+
+    const produtosFiltrado = FilterProducts(produtos, {
+        busca: pesquisa,
+        categoria
+    })
+
+    const produtosFiltradosPorStatus = produtosFiltrado.filter((produto) => {
+        if (filterStatus && verificarStatus(produto) !== filterStatus) return false;
+        if (subcategoria && produto.subcategoria !== subcategoria) return false;
+
+        return true;
+    });
+
+    const date = new Date().toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    })
+
+    useEffect(() => {
+        carregarProdutos();
+    }, []);
+
+    const totalProdutos = produtos.length;
+
+    const totalEstoqueProdutos = produtos.reduce((total, p) => {
+        return total + (Number(p.total_estoque) || 0);
+    }, 0);
+
+    const estoqueBaixo = produtos.filter((produto) => {
+        return Number(produto.total_estoque) <= Number(produto.estoque_minimo) && Number(produto.total_estoque) > 0;
+    })
+
+    const esgotados = produtos.filter((produto) => {
+        return Number(produto.total_estoque) <= 0;
+    })
+
+    const categorias = [
+        ...new Set(
+            produtos
+                .map((produtos) => produtos.categoria)
+                .filter(Boolean)
+        )
+    ];
+
+    const subcategorias = [
+        ...new Set(
+            produtos
+                .map((produtos) => produtos.subcategoria)
+                .filter(Boolean)
+        )
+    ];
+
+
+    const [timerNotificacao, setTimerNotificacao] = useState(null);
+
+    const mostrarNotificacao = (mensagem, tipo) => {
+        clearTimeout(timerNotificacao);
+
+        setNotification({ mensagem, tipo });
+        salvarNotificacao(mensagem, tipo);
+
+        setTimerNotificacao(
+            setTimeout(() => setNotification(null), 2500)
+        );
+    };
+
+    return (
+        <section className={Styles.container_page}>
+            <div className={Styles.container_header}>
+                <div className={Styles.title}>
+                    <h1>Estoque</h1>
+                    <p>Gerencie todo o seu estoque em tempo real.</p>
+                </div>
+
+                <div className={Styles.date}>
+                    <FiCalendar /> {date}
+                </div>
+            </div>
+
+            <div className={Styles.container_main}>
+                <div className={Styles.container_cards}>
+                    <div className={Styles.cards}>
+                        <div className={Styles.cards_svg}>
+                            <FiBox />
+                        </div>
+                        <div className={Styles.cards_infor}>
+                            <h4 className={Styles.cards_title}>Total Produtos</h4>
+                            <h3 className={Styles.cards_value}>{totalProdutos}</h3>
+                        </div>
+                    </div>
+
+                    <div className={Styles.cards}>
+                        <div className={Styles.cards_svg}>
+                            <FiDatabase />
+                        </div>
+                        <div className={Styles.cards_infor}>
+                            <h4 className={Styles.cards_title}>Estoque Total</h4>
+                            <h3 className={Styles.cards_value}>{totalEstoqueProdutos}</h3>
+                        </div>
+                    </div>
+
+                    <div className={Styles.cards}>
+                        <div className={Styles.cards_svg}>
+                            <FiAlertOctagon />
+                        </div>
+                        <div className={Styles.cards_infor}>
+                            <h4 className={Styles.cards_title}>Estoque Baixo</h4>
+                            <h3 className={Styles.cards_value}>{estoqueBaixo.length}</h3>
+                        </div>
+                    </div>
+
+                    <div className={Styles.cards}>
+                        <div className={Styles.cards_svg}>
+                            <FiAlertTriangle />
+                        </div>
+                        <div className={Styles.cards_infor}>
+                            <h4 className={Styles.cards_title}>Estoque esgotado</h4>
+                            <h3 className={Styles.cards_value}>{esgotados.length}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={Styles.container_content}>
+                    <div className={Styles.container_search}>
+                        <div className={Styles.search}>
+                            <FiSearch />
+                            <input
+                                type='text'
+                                placeholder='Pesquise por nome, SKU, código de barras, categorias ou subcategorias... '
+                                value={pesquisa}
+                                onChange={(e) => setPesquisa(e.target.value)}
+                            />
+                        </div>
+
+                        <Select
+                            className={Styles.select}
+                            text="Selecione uma categoria"
+                            name="categoria"
+                            options={categorias}
+                            value={categoria}
+                            handleOnChange={(e) => setCategoria(e.target.value)}
+                        />
+
+                        <Select
+                            className={Styles.select}
+                            text="Selecione uma subcategoria"
+                            name="subcategoria"
+                            options={subcategorias}
+                            value={subcategoria}
+                            handleOnChange={(e) => setSubcategoria(e.target.value)}
+                        />
+
+                        <Select
+                            className={Styles.select}
+                            text="Selecione um status"
+                            name="status"
+                            options={statusOptions}
+                            value={filterStatus}
+                            handleOnChange={(e) => setFilterStatus(e.target.value)}
+                        />
+                    </div>
+
+                    <div className={Styles.table_container}>
+                        <table className={Styles.products_table}>
+                            <thead>
+                                <tr>
+                                    <th>PRODUTO</th>
+                                    <th>CÓDIGO</th>
+                                    <th>SKU</th>
+                                    <th>CATEGORIA</th>
+                                    <th>SUBCATEGORIA</th>
+                                    <th>ESTOQUE ATUAL</th>
+                                    <th>ESTOQUE MÍNIMO</th>
+                                    <th>STATUS</th>
+                                    <th>AÇÕES</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {produtosFiltradosPorStatus.map((produto) => (
+                                    <tr key={produto.id}>
+                                        <td>
+                                            <div className={Styles.product_name}>
+                                                <div className={Styles.product_image}>
+                                                    {produto.imagem && !produto.imagem.startsWith('blob:') ? (
+                                                        <img src={`http://localhost:8081/${produto.imagem}`} alt={produto.nome} />
+                                                    ) : (
+                                                        <span><FiImage /></span>
+                                                    )}
+                                                </div>
+
+                                                {produto.nome}
+                                            </div>
+                                        </td>
+                                        <td>{produto.codigo_barras}</td>
+                                        <td>{produto.sku}</td>
+                                        <td>{produto.categoria}</td>
+                                        <td>{produto.subcategoria}</td>
+                                        <td>{produto.total_estoque}</td>
+                                        <td>{produto.estoque_minimo}</td>
+                                        <td>
+                                            <span className={
+                                                verificarStatus(produto) === 'Estoque Bom'
+                                                    ? Styles.status_active
+                                                    : verificarStatus(produto) === 'Estoque Baixo'
+                                                        ? Styles.status_warning
+                                                        : Styles.status_inactive
+                                            }>
+                                                {verificarStatus(produto)}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setProdutoSelecionado(produto);
+                                                    setEditarEstoque(true);
+                                                }}
+                                            >
+                                                <FiRefreshCcw />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className={Styles.footer}>
+                        <p>© 2026 StockFlow. Todos os direitos reservados.</p>
+
+                        <span>Gestão de produtos e estoque</span>
+                    </div>
+                </div>
+            </div>
+
+            {editarEstoque && produtoSelecionado && (
+                <ModalEditEstoque
+                    produto={produtoSelecionado}
+                    onAtualizar={carregarProdutos}
+                    mostrarNotificacao={mostrarNotificacao}
+                    onClose={() => {
+                        setEditarEstoque(false);
+                        setProdutoSelecionado(null);
+                    }}
+                />
+            )}
+
+            <Notifications notification={notification} />
+        </section>
+    )
+}
+
+export default StockPage;

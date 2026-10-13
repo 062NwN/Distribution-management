@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiX } from "react-icons/fi";
 
 import Styles from './ModalNewProduct.module.css';
@@ -11,7 +11,11 @@ import Stock from './pagesModel/Stock';
 import Tax from './pagesModel/Tax';
 import Control from './pagesModel/Control';
 
+import Loading from '../Loading';
+
 function ModalNewProduct({ onClose, onProductCreated }) {
+    const salvando = useRef(false);
+
     const [active, setActive] = useState(0);
 
     const [closing, setClosing] = useState(false);
@@ -67,6 +71,8 @@ function ModalNewProduct({ onClose, onProductCreated }) {
 
     const [unidadeMedidaCP, setUnidadeMedidaCP] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     function handleClose() {
         setClosing(true);
 
@@ -75,38 +81,8 @@ function ModalNewProduct({ onClose, onProductCreated }) {
         }, 250);
     }
 
-    useEffect(() => {
-        fetch("http://localhost:8081/cadastros/unMedidaVD")
-            .then((resp) => resp.json())
-            .then((data) => {
-                setUnMedidaVD(data);
-            })
-            .catch((err) => console.log(err));
-
-        fetch("http://localhost:8081/cadastros/unMedidaCP")
-            .then((resp) => resp.json())
-            .then((data) => {
-                setunMedidaCP(data);
-            })
-            .catch((err) => console.log(err));
-
-        fetch("http://localhost:8081/cadastros/tipoProduto")
-            .then((resp) => resp.json())
-            .then((data) => {
-                setTipoProduto(data);
-            })
-            .catch((err) => console.log(err));
-
-        fetch("http://localhost:8081/cadastros/setFornecedor")
-            .then((resp) => resp.json())
-            .then((data) => {
-                setFornecedores(data);
-            })
-            .catch((err) => console.log(err));
-    }, []);
-
-
     async function newProduct() {
+        const formData = new FormData();
 
         const custoTotal =
             parseFloat(precoCoompra || 0) +
@@ -119,68 +95,85 @@ function ModalNewProduct({ onClose, onProductCreated }) {
                 ? 0
                 : ((precoVendaNum - custoTotal) / precoVendaNum) * 100;
 
+        // Imagem: enviar o arquivo original
+        if (image instanceof File) {
+            formData.append("imagem", image);
+        }
+
+        // Dados do produto
+        const produto = {
+            nome: nome.toUpperCase(),
+            sku,
+            codigo_barras: codeBar,
+            descricao: description,
+
+            marca: marca.toUpperCase(),
+            categoria: categoria.toUpperCase(),
+            subcategoria: subCategoria.toUpperCase(),
+            unidade_medida: unidadeMedidaVD,
+            fator_conversao: fatorConversao,
+            tipo_produto: typeProduct,
+
+            estoque_inicial: estoqueInicial,
+            estoque_minimo: estoqueMinimo,
+            data_fabricacao: dataFabricacao,
+            data_validade: dataValidade,
+            lote,
+
+            preco_compra: precoCoompra,
+            preco_adicional: precoAdicional,
+            preco_venda: precoVenda,
+            preco_promocional: precoPromocional,
+            custo_total: custoTotal,
+            margem_lucro: margemLucro,
+
+            ncm,
+            cest,
+            origem: origin,
+            cfop,
+            cst,
+            csosn,
+
+            fornecedor,
+            quantidade_minima_compra: qtdMinimaCP,
+            unidade_medida_compra: unidadeMedidaCP,
+            quantidade_unidade_compra: qtdUnCompra,
+            frete,
+            condicao_pagamento: condicaoPagamento
+        };
+
+        // O Multer recebe o arquivo e o Express recebe os campos
+        Object.entries(produto).forEach(([chave, valor]) => {
+            if (valor !== null && valor !== undefined) {
+                formData.append(chave, String(valor));
+            }
+        });
+
         try {
-            const response = await fetch("http://localhost:8081/produtos", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    imagem: image,
-                    nome: nome.toUpperCase(),
-                    sku: sku,
-                    codigo_barras: codeBar,
-                    descricao: description,
+            const response = await fetch(
+                "http://localhost:8081/produtos",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
 
-                    marca: marca.toUpperCase(),
-                    categoria: categoria.toUpperCase(),
-                    subcategoria: subCategoria.toUpperCase(),
-                    unidade_medida: unidadeMedidaVD,
-                    fator_conversao: fatorConversao,
-                    tipo_produto: typeProduct,
-
-                    estoque_inicial: estoqueInicial,
-                    estoque_minimo: estoqueMinimo,
-                    data_fabricacao: dataFabricacao,
-                    data_validade: dataValidade,
-                    lote: lote,
-
-                    preco_compra: precoCoompra,
-                    preco_adicional: precoAdicional,
-                    preco_venda: precoVenda,
-                    preco_promocional: precoPromocional,
-                    custo_total: custoTotal,
-                    margem_lucro: margemLucro,
-
-                    ncm: ncm,
-                    cest: cest,
-                    origem: origin,
-                    cfop: cfop,
-                    cst: cst,
-                    csosn: csosn,
-
-                    fornecedor: fornecedor,
-                    quantidade_minima_compra: qtdMinimaCP,
-                    unidade_medida_compra: unidadeMedidaCP,
-                    quantidade_unidade_compra: qtdUnCompra,
-                    frete: frete,
-                    condicao_pagamento: condicaoPagamento
-                })
-            });
-
-            const novoProduto = await response.json();
+            const resultado = await response.json();
 
             if (!response.ok) {
-                throw new Error(`Erro HTTP: ${response.status}`);
+                throw new Error(
+                    resultado.erro ||
+                    resultado.mensagem ||
+                    `Erro HTTP: ${response.status}`
+                );
             }
 
-            onProductCreated(novoProduto);
+            onProductCreated(resultado);
 
             return true;
 
         } catch (error) {
             console.error("Erro ao cadastrar produto:", error);
-
             return false;
         }
     }
@@ -361,25 +354,54 @@ function ModalNewProduct({ onClose, onProductCreated }) {
                     )}
 
                     <button
+                        type="button"
                         className={Styles.continue}
-                        onClick={async () => {
+                        disabled={loading}
+                        onClick={async (event) => {
+                            event.preventDefault();
+
                             if (active < 5) {
-                                setActive(active + 1);
-                                return
-                            } else {
+                                setActive((prev) => prev + 1);
+                                return;
+                            }
+
+                            if (salvando.current) {
+                                console.warn("Cadastro já está em andamento.");
+                                return;
+                            }
+
+                            salvando.current = true;
+                            setLoading(true);
+
+                            try {
                                 const cadastrado = await newProduct();
 
                                 if (cadastrado) {
                                     handleClose();
+                                } else {
+                                    salvando.current = false;
                                 }
+                            } catch (error) {
+                                console.error("Erro ao cadastrar:", error);
+                                salvando.current = false;
+                            } finally {
+                                setLoading(false);
                             }
                         }}
                     >
-                        {active < 5 ? 'Continuar' : 'Cadastrar'}
+                        {loading
+                            ? "Cadastrando..."
+                            : active < 5
+                                ? "Continuar"
+                                : "Cadastrar"}
                     </button>
                 </div>
 
             </section>
+
+            {loading && (
+                <Loading />
+            )}
 
         </div>
     );

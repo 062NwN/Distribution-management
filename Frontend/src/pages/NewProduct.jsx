@@ -1,425 +1,467 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
-import { FiCalendar, FiBell, FiBox, FiPlus, FiInfo, FiAlertTriangle, FiImage, FiSearch, FiTrash, FiEdit3 } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiBox,
+  FiPlus,
+  FiTrendingUp,
+  FiBarChart,
+  FiImage,
+  FiSearch,
+  FiTrash,
+  FiEdit3,
+} from "react-icons/fi";
 
-import Styles from '../pages_css/NewProduct.module.css';
+import Styles from "../pages_css/NewProduct.module.css";
 
-import Select from '../pagesComponents/Select';
+import Select from "../pagesComponents/Select";
 
-import ModalNewProduct from '../components/models/ModalNewProduct';
-import ModalConfirm from '../components/models/ModalConfirm';
-import ModalEditProduct from '../components/models/ModalEditProduct';
+import ModalNewProduct from "../components/models/ModalNewProduct";
+import ModalConfirm from "../components/models/ModalConfirm";
+import ModalEditProduct from "../components/models/ModalEditProduct";
 
-import Notifications from '../components/Notifications';
-import salvarNotificacao from '../components/functions/salvarNotificacao';
+import Notifications from "../components/Notifications";
 
-import FilterProducts from '../components/FilterProducts';
+import salvarNotificacao from "../components/functions/salvarNotificacao";
+
+import FilterProducts from "../components/FilterProducts";
+
+import Loading from "../components/Loading";
 
 function NewProduct() {
-    const date = new Date();
+  const date = new Date();
 
-    const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const [produto, setProduto] = useState([]);
-    const [totalProdutos, setTotalProdutos] = useState(0);
+  const [produto, setProduto] = useState([]);
+  const [totalProdutos, setTotalProdutos] = useState(0);
 
-    const [confirm, setConfirm] = useState(false);
-    const [produtoSelecionado, setProdutoSelecionado] = useState(null);
+  const [confirm, setConfirm] = useState(false);
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
-    const [editOpen, setEditOpen] = useState(false);
-    const [produtoEditando, setProdutoEditando] = useState(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [produtoEditando, setProdutoEditando] = useState(null);
 
-    function confirmDelete(id) {
-        setProdutoSelecionado(id);
-        setConfirm(true);
+  const [loading, setLoading] = useState(false);
+
+  function confirmDelete(id) {
+    setProdutoSelecionado(id);
+    setConfirm(true);
+  }
+
+  function handleEdit(produto) {
+    setProdutoEditando(produto);
+    setEditOpen(true);
+  }
+
+  async function receberConfirm(resp) {
+    if (resp === "confirm") {
+      const sucesso = await deletProduct(produtoSelecionado);
+
+      if (sucesso) {
+        mostrarNotificacao("Produto deletado com sucesso!", "warning");
+      }
     }
 
-    function handleEdit(produto) {
-        setProdutoEditando(produto);
-        setEditOpen(true);
-    }
+    setConfirm(false);
+    setProdutoSelecionado(null);
+  }
 
-    async function receberConfirm(resp) {
-        if (resp === "confirm") {
-            const sucesso = await deletProduct(produtoSelecionado);
+  async function handleUpdateProduct(produtoAtualizado) {
+    setLoading(true);
 
-            if (sucesso) {
-                mostrarNotificacao(
-                    "Produto deletado com sucesso!",
-                    "warning"
-                );
-            }
+    try {
+      const formData = new FormData();
+
+      Object.entries(produtoAtualizado).forEach(([chave, valor]) => {
+        if (chave !== "imagem" && valor !== null && valor !== undefined) {
+          formData.append(chave, String(valor));
         }
+      });
 
-        setConfirm(false);
-        setProdutoSelecionado(null);
+      if (produtoAtualizado.imagem instanceof File) {
+        formData.append("imagem", produtoAtualizado.imagem);
+      }
+
+      const response = await fetch(
+        `http://localhost:8081/produtos/${produtoAtualizado.id}`,
+        {
+          method: "PUT",
+          body: formData,
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.erro || data.mensagem || "Erro ao atualizar produto",
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(`Erro ao atualizar produto: ${response.status}`);
+      }
+
+      setProduto((produtos) =>
+        produtos.map((produto) =>
+          produto.id === produtoAtualizado.id
+            ? (data.produto ?? produtoAtualizado)
+            : produto,
+        ),
+      );
+
+      mostrarNotificacao("Produto atualizado com sucesso!", "success");
+
+      setEditOpen(false);
+      setProdutoEditando(null);
+    } catch (error) {
+      console.error("Erro ao atualizar produto:", error);
+
+      mostrarNotificacao("Erro ao atualizar produto.", "error");
+    } finally {
+      setLoading(false);
     }
+  }
 
-    async function handleUpdateProduct(produtoAtualizado) {
-        try {
-            const response = await fetch(
-                `http://localhost:8081/produtos/${produtoAtualizado.id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(produtoAtualizado)
-                }
-            );
+  const dataFormatada = date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
-            if (!response.ok) {
-                throw new Error(
-                    `Erro ao atualizar produto: ${response.status}`
-                );
-            }
+  useEffect(() => {
+    fetch("http://localhost:8081/produtos")
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((data) => {
+        setProduto(data.produtos);
+        setTotalProdutos(data.totalProdutos);
+      })
+      .catch((error) => {
+        console.error("ERRO AO BUSCAR PRODUTOS:", error);
+      });
+  }, []);
 
-            const data = await response.json();
+  async function deletProduct(id) {
+    setLoading(true);
 
-            setProduto((produtos) =>
-                produtos.map((produto) =>
-                    produto.id === produtoAtualizado.id
-                        ? (data.produto ?? produtoAtualizado)
-                        : produto
-                )
-            );
+    try {
+      const response = await fetch(`http://localhost:8081/produtos/${id}`, {
+        method: "DELETE",
+      });
 
-            mostrarNotificacao(
-                "Produto atualizado com sucesso!",
-                "success"
-            );
+      if (!response.ok) {
+        throw new Error(`Erro ao excluir produto: ${response.status}`);
+      }
 
-            setEditOpen(false);
-            setProdutoEditando(null);
+      setProduto((produtos) => produtos.filter((produto) => produto.id !== id));
 
-        } catch (error) {
-            console.error("Erro ao atualizar produto:", error);
+      setTotalProdutos((total) => total - 1);
 
-            mostrarNotificacao(
-                "Erro ao atualizar produto.",
-                "error"
-            );
-        }
+      return true;
+    } catch (error) {
+      console.error("Erro ao excluir produto", error);
+
+      mostrarNotificacao("Erro ao excluir produto.", "error");
+
+      return false;
+    } finally {
+      setLoading(false);
     }
+  }
 
-    const dataFormatada = date.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
+  function formatarMoeda(valor) {
+    return Number(valor || 0).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
+  }
 
-    useEffect(() => {
-        fetch('http://localhost:8081/produtos')
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((data) => {
-                setProduto(data.produtos);
-                setTotalProdutos(data.totalProdutos);
-            })
-            .catch((error) => {
-                console.error("ERRO AO BUSCAR PRODUTOS:", error);
-            });
-    }, []);
+  const ProdutosAtivos = produto.filter((produtos) => {
+    return produtos.status === "ativo";
+  });
 
-    async function deletProduct(id) {
-        try {
-            const response = await fetch(
-                `http://localhost:8081/produtos/${id}`,
-                {
-                    method: "DELETE",
-                }
-            );
+  const margem = produto.reduce((total, p) => {
+    const precoVenda = Number(p.preco_venda) || 0;
+    const custoTotal = Number(p.custo_total) || 0;
 
-            if (!response.ok) {
-                throw new Error(
-                    `Erro ao excluir produto: ${response.status}`
-                );
-            }
+    const margemProduto =
+      precoVenda > 0 ? ((precoVenda - custoTotal) / precoVenda) * 100 : 0;
 
-            setProduto((produtos) =>
-                produtos.filter((produto) => produto.id !== id)
-            );
+    return total + margemProduto;
+  }, 0);
 
-            setTotalProdutos((total) => total - 1);
+  const margemMedia = produto.length > 0 ? margem / produto.length : 0;
 
-            return true;
+  const totalInvestido = produto.reduce((total, p) => {
+    const precoCompra = Number(p.preco_compra) || 0;
+    const precoAdicional = Number(p.preco_adicional) || 0;
 
-        } catch (error) {
-            console.error("Erro ao excluir produto", error);
+    const totalSoma = precoAdicional + precoCompra;
 
-            mostrarNotificacao(
-                "Erro ao excluir produto.",
-                "error"
-            );
+    return total + totalSoma;
+  }, 0);
 
-            return false;
-        }
-    }
+  const qtdProdutosAtivos = ProdutosAtivos.length;
 
-    function formatarMoeda(valor) {
-        return Number(valor || 0).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
+  const [notification, setNotification] = useState(null);
 
-    const ProdutosAtivos = produto.filter((produtos) => {
-        return produtos.status === "ativo";
-    });
+  const categorias = [
+    ...new Set(produto.map((produto) => produto.categoria).filter(Boolean)),
+  ];
 
-    const estoqueBaixo = produto.filter((produtos) => {
-        const estoque = Number(produtos.total_estoque);
-        const minimo = Number(produtos.estoque_minimo)
+  const status = [
+    ...new Set(produto.map((produto) => produto.status).filter(Boolean)),
+  ];
 
-        return estoque > 0 && estoque <= minimo;
-    });
+  const [filterStatus, setFilterStatus] = useState("");
+  const [busca, setBusca] = useState("");
+  const [categoria, setCategoria] = useState("");
 
-    const esgotados = produto.filter((produtos) => {
-        return produtos.total_estoque <= 0;
-    });
-
-    const produtosEstoqueBaixo = estoqueBaixo.length;
-    const qtdProdutosAtivos = ProdutosAtivos.length;
-    const produtosEsgotados = esgotados.length;
-
-    const [notification, setNotification] = useState(null);
-
-    const categorias = [
-        ...new Set(
-            produto
-                .map((produto) => produto.categoria)
-                .filter(Boolean)
-        )
-    ];
-
-    const status = [
-        ...new Set(
-            produto
-                .map((produto) => produto.status)
-                .filter(Boolean)
-        )
-    ]
-
-    const [filterStatus, setFilterStatus] = useState('');
-    const [busca, setBusca] = useState('');
-    const [categoria, setCategoria] = useState('');
-
-    const produtosFiltrados = FilterProducts(produto, {
+  const produtosFiltrados = FilterProducts(produto, {
     busca,
     categoria,
-    status: filterStatus
-});
+    status: filterStatus,
+  });
 
-    const mostrarNotificacao = (mensagem, tipo) => {
-        setNotification({ mensagem, tipo });
+  const [timerNotificacao, setTimerNotificacao] = useState(null);
 
-        salvarNotificacao(mensagem, tipo);
+  const mostrarNotificacao = (mensagem, tipo) => {
+    clearTimeout(timerNotificacao);
 
-        setTimeout(() => {
-            setNotification(null);
-        }, 2500);
-    };
+    setNotification({ mensagem, tipo });
 
-    return (
-        <section className={Styles.container}>
-            <article className={Styles.header}>
-                <div className={Styles.title}>
-                    <h1>Produtos</h1>
-                    <p>Visão geral dos seus produtos.</p>
-                </div>
+    salvarNotificacao(mensagem, tipo);
 
-                <div className={Styles.date}>
-                    <p><FiCalendar /> {dataFormatada}</p>
-                </div>
-            </article>
+    setTimerNotificacao(setTimeout(() => setNotification(null), 2500));
+  };
 
-            <article className={Styles.cards_main}>
-                <div className={Styles.cards}>
-                    <div className={Styles.cards_svg}>
-                        <FiBox />
-                    </div>
-                    <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Produtos Cadastrados</h4>
-                        <h3 className={Styles.cards_value}>{totalProdutos}</h3>
-                    </div>
-                </div>
+  return (
+    <section className={Styles.container}>
+      <article className={Styles.header}>
+        <div className={Styles.title}>
+          <h1>Produtos</h1>
+          <p>Visão geral dos seus produtos.</p>
+        </div>
 
-                <div className={Styles.cards}>
-                    <div className={Styles.cards_svg}>
-                        <FiPlus />
-                    </div>
-                    <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Produtos Ativos</h4>
-                        <h3 className={Styles.cards_value}>{qtdProdutosAtivos}</h3>
-                    </div>
-                </div>
+        <div className={Styles.date}>
+          <p>
+            <FiCalendar /> {dataFormatada}
+          </p>
+        </div>
+      </article>
 
-                <div className={Styles.cards}>
-                    <div className={Styles.cards_svg}>
-                        <FiInfo />
-                    </div>
-                    <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Estoque Baixo</h4>
-                        <h3 className={Styles.cards_value}>{produtosEstoqueBaixo}</h3>
-                    </div>
-                </div>
+      <article className={Styles.cards_main}>
+        <div className={Styles.cards}>
+          <div className={Styles.cards_svg}>
+            <FiBox />
+          </div>
+          <div className={Styles.cards_infor}>
+            <h4 className={Styles.cards_title}>Produtos Cadastrados</h4>
+            <h3 className={Styles.cards_value}>{totalProdutos}</h3>
+          </div>
+        </div>
 
-                <div className={Styles.cards}>
-                    <div className={Styles.cards_svg}>
-                        <FiAlertTriangle />
-                    </div>
-                    <div className={Styles.cards_infor}>
-                        <h4 className={Styles.cards_title}>Produtos Esgotados </h4>
-                        <h3 className={Styles.cards_value}>{produtosEsgotados}</h3>
-                    </div>
-                </div>
-            </article>
+        <div className={Styles.cards}>
+          <div className={Styles.cards_svg}>
+            <FiPlus />
+          </div>
+          <div className={Styles.cards_infor}>
+            <h4 className={Styles.cards_title}>Produtos Ativos</h4>
+            <h3 className={Styles.cards_value}>{qtdProdutosAtivos}</h3>
+          </div>
+        </div>
 
-            <article className={Styles.main_products}>
-                <div className={Styles.header_products}>
-                    <div className={Styles.search}>
-                        <FiSearch />
-                        <input
-                            className={Styles.input_search}
-                            type='text'
-                            placeholder='Pesquise por nome, SKU, código de barras, categorias ou subcategorias'
-                            value={busca}
-                            onChange={(e) => setBusca(e.target.value)}
-                        />
-                    </div>
+        <div className={Styles.cards}>
+          <div className={Styles.cards_svg}>
+            <FiTrendingUp />
+          </div>
+          <div className={Styles.cards_infor}>
+            <h4 className={Styles.cards_title}>Média Margem Lucro</h4>
+            <h3 className={Styles.cards_value}>
+              {margemMedia.toFixed(2) + "%"}
+            </h3>
+          </div>
+        </div>
 
-                    <Select
-                        className={Styles.select}
-                        text="Selecione uma categoria"
-                        name="categoria"
-                        options={categorias}
-                        value={categoria}
-                        handleOnChange={(e) => setCategoria(e.target.value)}
-                    />
+        <div className={Styles.cards}>
+          <div className={Styles.cards_svg}>
+            <FiBarChart />
+          </div>
+          <div className={Styles.cards_infor}>
+            <h4 className={Styles.cards_title}>Investimento</h4>
+            <h3 className={Styles.cards_value}>
+              {"R$ " + totalInvestido.toFixed(2)}
+            </h3>
+          </div>
+        </div>
+      </article>
 
-                    <Select
-                        className={Styles.select}
-                        text="Selecione um status"
-                        name="status"
-                        options={status}
-                        value={filterStatus}
-                        handleOnChange={(e) => setFilterStatus(e.target.value)}
-                    />
+      <article className={Styles.main_products}>
+        <div className={Styles.header_products}>
+          <div className={Styles.search}>
+            <FiSearch />
+            <input
+              className={Styles.input_search}
+              type="text"
+              placeholder="Pesquise por nome, SKU, código de barras, categorias ou subcategorias..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+            />
+          </div>
 
-                    <button onClick={() => setModalOpen(true)}><FiPlus /> Novo Produto</button>
-                </div>
-                <div className={Styles.table_container}>
-                    <table className={Styles.products_table}>
-                        <thead>
-                            <tr>
-                                <th>PRODUTO</th>
-                                <th>CÓDIGO</th>
-                                <th>CATEGORIA</th>
-                                <th>ESTOQUE</th>
-                                <th>PREÇO VND</th>
-                                <th>CUSTO TOTAL</th>
-                                <th>LUCRO</th>
-                                <th>STATUS</th>
-                                <th>AÇÕES</th>
-                            </tr>
-                        </thead>
+          <Select
+            className={Styles.select}
+            text="Selecione uma categoria"
+            name="categoria"
+            options={categorias}
+            value={categoria}
+            handleOnChange={(e) => setCategoria(e.target.value)}
+          />
 
-                        <tbody>
-                            {produtosFiltrados.map((produto) => {
-                                return (
-                                    <tr key={produto.id}>
-                                        <td>
-                                            <div className={Styles.product_name}>
-                                                <div className={Styles.product_image}>
-                                                    {produto.imagem && !produto.imagem.startsWith('blob:') ? (
-                                                        <img src={produto.imagem} alt={produto.nome} />
-                                                    ) : (
-                                                        <span><FiImage /></span>
-                                                    )}
-                                                </div>
+          <Select
+            className={Styles.select}
+            text="Selecione um status"
+            name="status"
+            options={status}
+            value={filterStatus}
+            handleOnChange={(e) => setFilterStatus(e.target.value)}
+          />
 
-                                                {produto.nome}
-                                            </div>
-                                        </td>
+          <button onClick={() => setModalOpen(true)}>
+            <FiPlus /> Novo Produto
+          </button>
+        </div>
+        <div className={Styles.table_container}>
+          <table className={Styles.products_table}>
+            <thead>
+              <tr>
+                <th>PRODUTO</th>
+                <th>CÓDIGO</th>
+                <th>CATEGORIA</th>
+                <th>ESTOQUE</th>
+                <th>PREÇO VND</th>
+                <th>CUSTO TOTAL</th>
+                <th>LUCRO</th>
+                <th>STATUS</th>
+                <th>AÇÕES</th>
+              </tr>
+            </thead>
 
-                                        <td>{produto.codigo_barras}</td>
-                                        <td>{produto.categoria}</td>
-                                        <td>{produto.total_estoque}</td>
-                                        <td>{formatarMoeda(produto.preco_venda)}</td>
-                                        <td>{formatarMoeda(produto.custo_total || 0)}</td>
-                                        <td>+ {Number(produto.margem_lucro || 0).toFixed(2)}%</td>
-                                        <td>
-                                            <span className={
-                                                produto.status === 'ativo'
-                                                    ? Styles.status_active
-                                                    : Styles.status_inactive
-                                            }>
-                                                {produto.status === "ativo" ? "Ativo" : "Inativo"}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div className={Styles.actions}>
-                                                <button className={Styles.edit}
-                                                    onClick={() => handleEdit(produto)}
-                                                >
-                                                    <FiEdit3 />
-                                                </button>
+            <tbody>
+              {produtosFiltrados.length === 0 ? (
+                <tr>
+                  <td colSpan={8}>Nenhuma venda encontrada.</td>
+                </tr>
+              ) : (
+                produtosFiltrados.map((produto) => {
+                  return (
+                    <tr key={produto.id}>
+                      <td>
+                        <div className={Styles.product_name}>
+                          <div className={Styles.product_image}>
+                            {produto.imagem &&
+                            !produto.imagem.startsWith("blob:") ? (
+                              <img
+                                src={`http://localhost:8081/${produto.imagem}`}
+                                alt={produto.nome}
+                              />
+                            ) : (
+                              <span>
+                                <FiImage />
+                              </span>
+                            )}
+                          </div>
 
-                                                <button className={Styles.delete} onClick={() => confirmDelete(produto.id)}>
-                                                    <FiTrash />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-                <div className={Styles.footer}>
-                    <p>© 2026 StockFlow. Todos os direitos reservados.</p>
+                          {produto.nome}
+                        </div>
+                      </td>
 
-                    <span>Gestão de produtos e estoque</span>
-                </div>
-            </article>
+                      <td>{produto.codigo_barras}</td>
+                      <td>{produto.categoria}</td>
+                      <td>{produto.total_estoque}</td>
+                      <td>{formatarMoeda(produto.preco_venda)}</td>
+                      <td>{formatarMoeda(produto.custo_total || 0)}</td>
+                      <td>+ {Number(produto.margem_lucro || 0).toFixed(2)}%</td>
+                      <td>
+                        <span
+                          className={
+                            produto.status === "ativo"
+                              ? Styles.status_active
+                              : Styles.status_inactive
+                          }
+                        >
+                          {produto.status === "ativo" ? "Ativo" : "Inativo"}
+                        </span>
+                      </td>
+                      <td>
+                        <div className={Styles.actions}>
+                          <button
+                            className={Styles.edit}
+                            onClick={() => handleEdit(produto)}
+                          >
+                            <FiEdit3 />
+                          </button>
 
-            {modalOpen && (
-                <ModalNewProduct
-                    onClose={() => setModalOpen(false)}
-                    onProductCreated={(novoProduto) => {
-                        setProduto((produtos) => [...produtos, novoProduto]);
-                        setTotalProdutos((total) => total + 1);
+                          <button
+                            className={Styles.delete}
+                            onClick={() => confirmDelete(produto.id)}
+                          >
+                            <FiTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className={Styles.footer}>
+          <p>© 2026 StockFlow. Todos os direitos reservados.</p>
 
-                        mostrarNotificacao(
-                            "Produto cadastrado com sucesso!",
-                            "success"
-                        );
-                    }}
-                />
-            )}
+          <span>Gestão de produtos e estoque</span>
+        </div>
+      </article>
 
-            {confirm && (
-                <ModalConfirm
-                    mensagem='Deseja excluir esse produto?'
-                    onResposta={receberConfirm}
-                />
-            )}
+      {modalOpen && (
+        <ModalNewProduct
+          onClose={() => setModalOpen(false)}
+          onProductCreated={(novoProduto) => {
+            setProduto((produtos) => [...produtos, novoProduto]);
+            setTotalProdutos((total) => total + 1);
 
-            {editOpen && produtoEditando && (
-                <ModalEditProduct
-                    produto={produtoEditando}
-                    onClose={() => {
-                        setEditOpen(false);
-                        setProdutoEditando(null);
-                    }}
-                    onSave={handleUpdateProduct}
-                />
-            )}
+            mostrarNotificacao("Produto cadastrado com sucesso!", "success");
+          }}
+        />
+      )}
 
-            <Notifications notification={notification} />
-        </section>
-    )
+      {confirm && (
+        <ModalConfirm
+          mensagem="Deseja excluir esse produto?"
+          onResposta={receberConfirm}
+        />
+      )}
+
+      {editOpen && produtoEditando && (
+        <ModalEditProduct
+          produto={produtoEditando}
+          onClose={() => {
+            setEditOpen(false);
+            setProdutoEditando(null);
+          }}
+          onSave={handleUpdateProduct}
+        />
+      )}
+
+      {loading && <Loading />}
+
+      <Notifications notification={notification} />
+    </section>
+  );
 }
 
 export default NewProduct;

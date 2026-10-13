@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { FiHome, FiBox, FiChevronRight, FiInbox } from 'react-icons/fi';
+import { PiBeerBottle } from "react-icons/pi";
+import { FiHome, FiBox, FiChevronRight, FiInbox, FiShoppingCart, FiShoppingBag } from 'react-icons/fi';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { FaBell, FaBellSlash } from "react-icons/fa";
 
@@ -31,34 +32,50 @@ function NavBar() {
     const primeiraBusca = useRef(true);
 
     useEffect(() => {
+
         const buscarNotifications = async () => {
             try {
                 const resp = await fetch('http://localhost:8081/notificacoes');
 
-                const data = await resp.json();
-
-                const novasNotificacoes = data.filter(
-                    (notificacao) =>
-                        !notificacoesConhecidas.current.has(notificacao.id)
-                );
-
-                // Não considera as notificações existentes
-                // quando o sistema é aberto
-                if (!primeiraBusca.current && novasNotificacoes.length > 0) {
-
-                    setHasNewNotification(true);
+                if (!resp.ok) {
+                    const erro = await resp.json();
+                    throw new Error(
+                        erro.mensagem || `Erro HTTP: ${resp.status}`
+                    );
                 }
 
-                // Guarda os IDs conhecidos
-                data.forEach((notificacao) => {
-                    notificacoesConhecidas.current.add(notificacao.id);
+                const data = await resp.json();
+
+                const notificacoes = Array.isArray(data)
+                    ? data
+                    : data.notificacoes;
+
+                if (!Array.isArray(notificacoes)) {
+                    throw new Error(
+                        'A resposta da API não contém uma lista de notificações.'
+                    );
+                }
+
+                if (!primeiraBusca.current) {
+                    const encontrouNova = notificacoes.some(
+                        (item) =>
+                            !notificacoesConhecidas.current.has(item.id)
+                    );
+
+                    if (encontrouNova) {
+                        setHasNewNotification(true);
+                    }
+                }
+
+                notificacoes.forEach((item) => {
+                    notificacoesConhecidas.current.add(item.id);
                 });
 
-                setNotification(data);
+                setNotification(notificacoes);
                 primeiraBusca.current = false;
 
             } catch (error) {
-                console.log('Erro ao buscar notificações', error);
+                console.error('Erro ao buscar notificações:', error);
             }
         };
 
@@ -96,8 +113,18 @@ function NavBar() {
                             className={({ isActive }) =>
                                 `${Styles.home} ${isActive ? Styles.active : ''}`
                             }>
-                            <FiBox />
+                            <PiBeerBottle />
                             Produtos
+                        </NavLink>
+                    </div>
+
+                    <div className={Styles.link2}>
+                        <NavLink to="/stock"
+                            className={({ isActive }) =>
+                                `${Styles.home} ${isActive ? Styles.active : ''}`
+                            }>
+                            <FiBox />
+                            Estoque
                         </NavLink>
                     </div>
 
@@ -108,6 +135,16 @@ function NavBar() {
                             }>
                             <FiInbox />
                             Caixa
+                        </NavLink>
+                    </div>
+
+                    <div className={Styles.link2}>
+                        <NavLink to="/sales"
+                            className={({ isActive }) =>
+                                `${Styles.home} ${isActive ? Styles.active : ''}`
+                            }>
+                            <FiShoppingBag />
+                            Vendas
                         </NavLink>
                     </div>
 

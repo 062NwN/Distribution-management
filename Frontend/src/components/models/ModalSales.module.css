@@ -1,0 +1,71 @@
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  --success: #16a34a;
+  --success-light: #dcfce7;
+
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+
+  --svg-blue: #dbeafe;
+  --svg-green: #dcfce7;
+  --svg-purple: #ede9fe;
+  --svg-orange: #fef3c7;
+  --svg-red: #fee2e2;
+  --svg-cyan: #e0f2fe;
+  --svg-pink: #fce7f3;
+  --svg-gray: #f1f5f9;
+
+  --card-blue-bg: #2563eb;
+  --card-green-bg: #16a34a;
+  --card-purple-bg: #7c3aed;
+  --card-orange-bg: #d97706;
+  --card-red-bg: #dc2626;
+  --card-cyan-bg: #0284c7;
+  --card-pink-bg: #db2777;
+  --card-gray-bg: #475569;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 6vh;
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.28);
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.container_page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  margin-top: 20px;
+
+  width: 450px;
+  height: 10vh;
+
+  border: 1px solid var(--border);
+  border-radius: 5px;
+
+  background-color: var(--surface);
+}

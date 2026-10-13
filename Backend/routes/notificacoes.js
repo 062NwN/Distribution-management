@@ -2,45 +2,43 @@ const express = require('express');
 
 const router = express.Router();
 
+const Notificacoes = require('../models/notificacoes');
+
 router.get('/', async (req, res) => {
-    try{
-        const response = await fetch('http://localhost:8080/notificacoes');
+    try {
+        const notificacoes = await Notificacoes.findAll();
 
-        if(!response.ok) {
-           return res.status(response.status).json({ mensagem: "Erro ao buscar notificações." });
-        }
+        return res.status(200).json({ notificacoes });
 
-        const data = await response.json();
+    } catch (error) {
+        console.error('ERRO COMPLETO:', error);
 
-        res.status(200).json(data);
-    }catch (error) { 
-        res.status(500).json({ mensagem: "Erro ao buscar notificações.", error: error.message });
+        return res.status(500).json({
+            mensagem: 'Erro ao buscar notificações.',
+            erro: error.message,
+            sql: error.sql
+        });
     }
 });
 
 
 router.post('/', async (req, res) => {
-    try{
+    try {
         const { mensagem, tipo } = req.body;
 
-        const notificacao = {
-            mensagem,
-            tipo,
-            date: new Date()
-        }
+        const notificacao = await Notificacoes.create(
+            {
+                mensagem,
+                tipo,
+            }
+        );
 
-        const response = await fetch('http://localhost:8080/notificacoes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(notificacao)
-        });
-
-        const data = await response.json();
-
-        console.log('Resposta do backend:', data);
-
-        // Process the notification data here
-        res.status(201).json({ mensagem: "Notificação criada com sucesso!" });
+        res.status(201).json(
+            {
+                mensagem: "Notificação criada com sucesso!",
+                notificacao: notificacao
+            }
+        );
     } catch (error) {
         res.status(500).json({ mensagem: "Erro ao criar notificação.", error: error.message });
     }
@@ -49,20 +47,17 @@ router.post('/', async (req, res) => {
 
 router.delete('/', async (req, res) => {
     try {
-        const response = await fetch('http://localhost:8080/notificacoes');
+        const totalNotificacoes = await Notificacoes.count();
 
-        if (!response.ok) {
-            return res.status(response.status).json({ mensagem: "Erro ao limpar notificações." });
+        if (totalNotificacoes === 0) {
+            res.status(404).json({
+                mensagem: "Erro nenhuma notificacao encontrada."
+            })
         }
 
-        const notificacoes = await response.json();
-
-        for (const notificacao of notificacoes) {
-
-            await fetch(`http://localhost:8080/notificacoes/${notificacao.id}`, {
-                method: 'DELETE',
-            });
-        }
+        await Notificacoes.destroy({
+            where: {}
+        });
 
         res.status(200).json({ mensagem: "Notificações limpas com sucesso!" });
     } catch (error) {

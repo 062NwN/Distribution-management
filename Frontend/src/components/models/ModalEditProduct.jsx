@@ -3,6 +3,7 @@ import { FiX, FiImage } from "react-icons/fi";
 import Styles from "./ModalEditProduct.module.css";
 
 function ModalEditProduct({ produto, onClose, onSave }) {
+
     const [closing, setClosing] = useState(false);
 
     const [imagem, setImagem] = useState(produto?.imagem ?? "");
@@ -37,7 +38,7 @@ function ModalEditProduct({ produto, onClose, onSave }) {
     const [condicaoPagamento, setCondicaoPagamento] =
         useState(produto?.condicao_pagamento ?? "");
 
-    function handleImage(e) {
+    async function handleImage(e) {
         const file = e.target.files[0];
         if (!file) return;
 
@@ -46,7 +47,7 @@ function ModalEditProduct({ produto, onClose, onSave }) {
         reader.onload = (event) => {
             const img = new Image();
 
-            img.onload = () => {
+            img.onload = async () => {
                 const canvas = document.createElement("canvas");
                 const maxWidth = 400;
                 const maxHeight = 400;
@@ -78,7 +79,15 @@ function ModalEditProduct({ produto, onClose, onSave }) {
                     compressedImage = canvas.toDataURL("image/jpeg", quality);
                 }
 
-                setImagem(compressedImage);
+                const imagemFile = await fetch(compressedImage)
+                    .then((response) => response.blob())
+                    .then((blob) => new File(
+                        [blob],
+                        file.name.replace(/\.[^/.]+$/, "") + ".jpg",
+                        { type: "image/jpeg" }
+                    ));
+
+                setImagem(imagemFile);
             };
 
             img.src = event.target.result;
@@ -101,11 +110,13 @@ function ModalEditProduct({ produto, onClose, onSave }) {
                 ? ((Number(precoVenda) - custoTotal) / Number(precoVenda)) * 100
                 : 0;
 
+        const nomeFormat = nome.toUpperCase();
+
         const produtoAtualizado = {
             ...produto,
 
             imagem,
-            nome,
+            nome: nomeFormat,
             descricao,
             status,
 
@@ -169,7 +180,20 @@ function ModalEditProduct({ produto, onClose, onSave }) {
 
                         <div className={Styles.imageArea}>
                             <label htmlFor="productImage" className={Styles.uploadImage}>
-                                {imagem ? <img src={imagem} alt="Produto" /> : <FiImage />}
+                                {imagem ? (
+                                    <img
+                                        src={
+                                            imagem instanceof File
+                                                ? URL.createObjectURL(imagem)
+                                                : imagem.startsWith("data:")
+                                                    ? imagem
+                                                    : `http://localhost:8081/${imagem}`
+                                        }
+                                        alt={nome}
+                                    />
+                                ) : (
+                                    <FiImage />
+                                )}
 
                                 <input
                                     id="productImage"

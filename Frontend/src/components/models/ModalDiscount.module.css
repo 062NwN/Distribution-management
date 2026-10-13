@@ -1,0 +1,152 @@
+:root {
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --primary-light: #DBEAFE;
+
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+
+    --success: #16A34A;
+    --success-light: #DCFCE7;
+
+    --warning: #D97706;
+    --warning-light: #FEF3C7;
+
+    --danger: #DC2626;
+    --danger-light: #FEE2E2;
+
+    --svg-blue: #DBEAFE;
+    --svg-green: #DCFCE7;
+    --svg-purple: #EDE9FE;
+    --svg-orange: #FEF3C7;
+    --svg-red: #FEE2E2;
+    --svg-cyan: #E0F2FE;
+    --svg-pink: #FCE7F3;
+    --svg-gray: #F1F5F9;
+
+    --card-blue-bg: #2563EB;
+    --card-green-bg: #16A34A;
+    --card-purple-bg: #7C3AED;
+    --card-orange-bg: #D97706;
+    --card-red-bg: #DC2626;
+    --card-cyan-bg: #0284C7;
+    --card-pink-bg: #DB2777;
+    --card-gray-bg: #475569;
+}
+
+.container{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.26);
+    animation: fadeIn 0.2s ease forwards;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ModalDiscount {
+    width: 300px;
+    height: 30vh;
+
+    margin: 30vh auto;
+    padding: 20px 25px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    box-sizing: border-box;
+}
+
+.view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0;
+}
+
+.view p,
+.view h2{
+    margin: 0;
+    padding: 15px 10px 10px;
+}
+
+.view p{
+    color: var(--text-secondary);
+}
+
+.view h2{
+    font-size: 20px;
+
+    color: var(--success);
+}
+
+.input_discount {
+    margin: 0;
+
+    width: 100%;
+
+    border-top: 1px solid var(--text-muted);
+    border-bottom: 1px solid var(--text-muted);
+
+    padding: 20px 0;
+}
+
+.input_discount input {
+
+    width: 100%;
+    height: 35px;
+
+    padding: 0 10px;
+
+    border: 1px solid var(--text-muted);
+    border-radius: 5px;
+
+    box-sizing: border-box;
+}
+
+.container_buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.cancel,
+.apply{
+    background: transparent !important;
+
+    margin-top: 22px;
+
+    width: 48% !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.apply{
+    color: var(--success);
+    border: 1px solid var(--success)
+}
+
+.apply:hover{
+    background: var(--success-light) !important;
+}
+
+.cancel{
+    color: var(--danger);
+    border: 1px solid var(--danger)
+}
+
+.cancel:hover{
+    background: var(--danger-light) !important;
+}

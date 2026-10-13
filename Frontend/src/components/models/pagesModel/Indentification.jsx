@@ -13,6 +13,20 @@ function Identification({ image, nome, sku, codeBar, description, setImage, setN
         'Validade e Lote'
     ];
 
+    function base64ToFile(base64, filename = "produto.jpg") {
+        const [header, data] = base64.split(",");
+        const mime = header.match(/:(.*?);/)[1];
+
+        const binary = atob(data);
+        const bytes = new Uint8Array(binary.length);
+
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+
+        return new File([bytes], filename, { type: mime });
+    }
+
     function handleImage(e) {
 
         const file = e.target.files[0];
@@ -58,7 +72,7 @@ function Identification({ image, nome, sku, codeBar, description, setImage, setN
                     compressedImage = canvas.toDataURL("image/jpeg", quality);
                 }
 
-                setImage(compressedImage);
+                setImage(base64ToFile(compressedImage));
             };
 
             img.src = event.target.result;
@@ -73,15 +87,15 @@ function Identification({ image, nome, sku, codeBar, description, setImage, setN
 
             <label htmlFor='image'>Selecione uma imagem:</label>
             <label className={Styles.uploadImage}>
-                {image ? (
-                    <img src={image} alt="Preview do produto" />
+                {image instanceof File ? (
+                    <img src={URL.createObjectURL(image)} alt="Preview do produto" />
                 ) : (
                     <FiImage />
                 )}
 
                 <input
                     type="file"
-                    accept="image/*"
+                    accept="image/png,image/jpeg,image/webp"
                     onChange={handleImage}
                 />
             </label>
