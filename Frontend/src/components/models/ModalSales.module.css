@@ -39,33 +39,260 @@
   --card-gray-bg: #475569;
 }
 
+/* Fundo do modal */
 .bg {
   position: fixed;
   inset: 0;
   z-index: 900;
+
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 6vh;
+  align-items: center;
+
+  overflow-y: auto;
+  padding: 24px 16px;
   box-sizing: border-box;
-  background: rgba(15, 23, 42, 0.28);
-  animation: fadeIn 0.2s ease forwards;
+
+  background-color: rgba(0, 0, 0, 0.26);
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
+.bg.open {
+  opacity: 1;
+}
+
+/* Área de posicionamento */
 .container_page {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  min-width: 0;
 }
 
+/* Modal */
 .container {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 
-  width: 450px;
-  height: 10vh;
+  width: 100%;
+  max-width: 900px;
+  max-height: 60vh;
+  min-height: 0;
+
+  box-sizing: border-box;
+  overflow: hidden;
 
   border: 1px solid var(--border);
   border-radius: 5px;
 
   background-color: var(--surface);
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+
+  opacity: 0;
+  transform: translateY(-20px) scale(0.98);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.bg.open .container {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Cabeçalho */
+.nav {
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px 20px;
+
+  border-bottom: 1px solid var(--border);
+  background-color: var(--card-gray-bg);
+}
+
+/* Identificação da venda */
+.id_venda {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  color: var(--surface);
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+}
+
+.id_venda p {
+  margin: 0;
+  color: var(--surface);
+}
+
+/* Botão fechar */
+.nav button {
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 35px;
+  height: 35px;
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--surface);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav button:hover {
+  background-color: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+
+  transform: translateY(-1px);
+}
+
+.nav button:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.nav button:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+.nav button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.nav button svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* Área rolável da tabela */
+.container_products_table {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* Tabela */
+.products_table {
+  width: 100%;
+  min-width: 650px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  color: var(--text-primary);
+  font-size: 14px;
+  text-align: left;
+}
+
+/* Cabeçalho da tabela */
+.products_thead {
+  background-color: var(--background);
+}
+
+.products_th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 14px 16px;
+
+  background-color: var(--background);
+  color: var(--text-secondary);
+
+  border-bottom: 1px solid var(--border);
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  white-space: nowrap;
+}
+
+/* Células */
+.products_td {
+  padding: 14px 16px;
+
+  border-bottom: 1px solid var(--border);
+
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+/* Linhas da tabela */
+.products_tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.products_tbody tr:hover {
+  background-color: var(--background);
+}
+
+.products_tbody tr:last-child .products_td {
+  border-bottom: none;
+}
+
+/* Estado sem produtos / carregando */
+.products_td_empty {
+  padding: 32px 16px;
+
+  color: var(--text-muted);
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Barra de rolagem */
+.container_products_table::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.container_products_table::-webkit-scrollbar-track {
+  background-color: var(--background);
+}
+
+.container_products_table::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 8px;
+}
+
+.container_products_table::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }

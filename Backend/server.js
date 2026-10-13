@@ -14,8 +14,9 @@ const produtosRouter = require('./routes/produtos');
 const cadastrosRouter = require('./routes/cadastros');
 const notificacoesRouter = require('./routes/notificacoes');
 const vendasRouter = require('./routes/vendas');
-const movimentacoes = require('./routes/movimentacoes');
+const movimentacoesRouter = require('./routes/movimentacoes');
 const associacoes = require('./models/associacoes');
+const vendaItensRouter = require('./routes/vendaItens');
 
 app.use(express.json());
 app.use(cors());
@@ -25,7 +26,8 @@ app.use('/produtos', produtosRouter);
 app.use('/cadastros', cadastrosRouter);
 app.use('/notificacoes', notificacoesRouter);
 app.use('/vendas', vendasRouter);
-app.use('/movimentacoes', movimentacoes);
+app.use('/venda_itens', vendaItensRouter);
+app.use('/movimentacoes', movimentacoesRouter);
 
 app.use((req, res) => {
     res.status(404).json({

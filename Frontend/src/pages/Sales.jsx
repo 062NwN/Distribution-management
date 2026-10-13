@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import { VscGraphLeft } from "react-icons/vsc";
 import {
   FiCalendar,
   FiDollarSign,
@@ -198,8 +199,53 @@ function Sales() {
 
   const [vendaSelecionada, setVendaSelecionada] = useState(null);
 
+  const [itensVenda, setItensVenda] = useState([]);
+  const [carregandoItens, setCarregandoItens] = useState(false);
+
+  // Abre o modal já em estado de carregamento, evitando o flash de
+  // "Nenhum produto encontrado" antes dos itens chegarem da API.
+  function abrirVenda(venda) {
+    setItensVenda([]);
+    setCarregandoItens(true);
+    setVendaSelecionada(venda);
+  }
+
+  useEffect(() => {
+    if (!vendaSelecionada) {
+      setItensVenda([]);
+      setCarregandoItens(false);
+      return;
+    }
+
+    async function buscarItensVenda() {
+      setCarregandoItens(true);
+
+      try {
+        const response = await fetch(
+          `http://localhost:8081/venda_itens/${vendaSelecionada.id}/vendas`,
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.mensagem || "Erro ao buscar itens da venda");
+        }
+
+        setItensVenda(data.itens);
+      } catch (error) {
+        console.error("Erro ao buscar itens:", error);
+
+        mostrarNotificacao("Erro ao encontrar itens da compra.", "error");
+      } finally {
+        setCarregandoItens(false);
+      }
+    }
+
+    buscarItensVenda();
+  }, [vendaSelecionada]);
+
   return (
-    <section className={Styles.container}>
+    <section>
       <div className={Styles.container_header}>
         <div className={Styles.title}>
           <h1>Vendas</h1>
@@ -207,10 +253,14 @@ function Sales() {
         </div>
 
         <div className={Styles.date}>
+          <div className={Styles.button_grafics}>
+              <button className={Styles.grafics}><VscGraphLeft /></button>
+          </div>
+          
           <FiCalendar /> {date}
         </div>
       </div>
-
+      <section className={Styles.container}>
       <div className={Styles.container_main}>
         <div className={Styles.container_sales}>
           <div className={Styles.container_cards}>
@@ -340,10 +390,10 @@ function Sales() {
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody className={Styles.tbody}>
                 {vendasFiltradas.length === 0 ? (
                   <tr>
-                    <td colSpan={8}>Nenhuma venda encontrada.</td>
+                    <td colSpan={9}>Nenhuma venda encontrada.</td>
                   </tr>
                 ) : (
                   vendasFiltradas.map((venda) => (
@@ -365,7 +415,10 @@ function Sales() {
                         )}
                       </td>
                       <td>
-                        <button onClick={() => setVendaSelecionada(venda)}>
+                        <button
+                          onClick={() => abrirVenda(venda)}
+                          className={Styles.button}
+                        >
                           <FiMenu />
                         </button>
                       </td>
@@ -388,11 +441,13 @@ function Sales() {
       {vendaSelecionada && (
         <ModalSales
           id_venda={vendaSelecionada.id}
-          produto_venda={vendaSelecionada.itens || []}
+          produto_venda={itensVenda || []}
+          carregando={carregandoItens}
           onClose={() => setVendaSelecionada(null)}
         />
       )}
       {loading && <Loading />}
+    </section>
     </section>
   );
 }

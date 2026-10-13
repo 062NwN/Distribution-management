@@ -71,6 +71,7 @@
     justify-content: flex-start;
     border-bottom: 1px solid var(--border);
     padding: 15px 20px 5px 15px;
+    background-color: var(--card-gray-bg);
 }
 
 .title {
@@ -79,7 +80,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--text-primary);
+    color: var(--surface);
 }
 
 .title h1 {
@@ -89,23 +90,23 @@
 }
 
 .exit_container {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
     border: 1px solid transparent;
+    border-radius: 7px;
+    background: var(--surface);
     color: var(--text-secondary);
     cursor: pointer;
     transition: 0.2s ease;
-    background-color: var(--surface);
 }
 
 .exit_container:hover {
-    background-color: rgba(221, 26, 26, 0.158);
-    border: 1px solid var(--card-red-bg);
-    color: var(--text-primary);
+    color: var(--danger);
+    background: var(--danger-light);
+    border-color: var(--danger);
     transform: translateY(-1px);
 }
 
@@ -134,7 +135,7 @@
     justify-content: center;
     height: 25px;
     cursor: pointer;
-    color: var(--text-secondary);
+    color: var(--surface);
     border-bottom: 2px solid transparent;
     transition: 0.2s ease;
 }
@@ -147,7 +148,7 @@
 
 .active,
 .links:hover {
-    color: var(--text-primary);
+    color: var(--success-light);;
     border-bottom: 2px solid var(--card-cyan-bg);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.06);
 }

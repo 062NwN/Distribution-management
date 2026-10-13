@@ -6,7 +6,7 @@
     --surface: #FFFFFF;
     --border: #E2E8F0;
     --text-primary: #0F172A;
-    --text-secondary: #64748B;
+    --text-secondary: #c1c2c4;
     --text-muted: #94A3B8;
     --success: #16A34A;
     --success-light: #DCFCE7;
@@ -52,18 +52,20 @@
     padding: 18px 20px;
     background: var(--background);
     border-bottom: 1px solid var(--border);
+
+    background-color: var(--card-gray-bg);
 }
 
 .header h1 {
     margin: 0;
-    color: var(--text-primary);
+    color: var(--surface);
     font-size: 20px;
     font-weight: 600;
 }
 
 .header p {
     margin: 4px 0 0;
-    color: var(--text-secondary);
+    color: var(--success-light);
     font-size: 13px;
 }
 

@@ -118,10 +118,26 @@ router.post("/", Upload.single("imagem"), async (req, res) => {
     } catch (error) {
         console.error('Erro ao cadastrar produto' + error);
 
-        res.status(500).json({
-            mensagem: "Erro ao cadastrar produto.",
-            erro: error.message
-        })
+        if (error.errors) {
+        error.errors.forEach((erro) => {
+            console.error({
+                campo: erro.path,
+                valor: erro.value,
+                mensagem: erro.message,
+                tipo: erro.type
+            });
+        });
+    }
+
+        return res.status(500).json({
+        mensagem: "Erro ao cadastrar produto",
+        erro: error.message,
+        detalhes: error.errors?.map((erro) => ({
+            campo: erro.path,
+            mensagem: erro.message,
+            tipo: erro.type
+        }))
+    });
     }
 });
 
