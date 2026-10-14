@@ -1,0 +1,129 @@
+:root {
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --primary-light: #DBEAFE;
+ 
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+ 
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+ 
+    --success: #16A34A;
+    --success-light: #DCFCE7;
+ 
+    --warning: #D97706;
+    --warning-light: #FEF3C7;
+ 
+    --danger: #DC2626;
+    --danger-light: #FEE2E2;
+ 
+    --svg-blue: #DBEAFE;
+    --svg-green: #DCFCE7;
+    --svg-purple: #EDE9FE;
+    --svg-orange: #FEF3C7;
+    --svg-red: #FEE2E2;
+    --svg-cyan: #E0F2FE;
+    --svg-pink: #FCE7F3;
+    --svg-gray: #F1F5F9;
+ 
+    --card-blue-bg: #2563EB;
+    --card-green-bg: #16A34A;
+    --card-purple-bg: #7C3AED;
+    --card-orange-bg: #D97706;
+    --card-red-bg: #DC2626;
+    --card-cyan-bg: #0284C7;
+    --card-pink-bg: #DB2777;
+    --card-gray-bg: #475569;
+}
+
+.container_main {
+    width: 100%;
+    height: 87vh;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: 5px;
+
+    background-color: var(--background);
+
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* CABEÇALHO */
+
+.container_header {
+    min-height: 80px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 50px;
+
+    border-bottom: 2px solid var(--text-muted);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    background-color: var(--surface);
+
+    flex-shrink: 0;
+}
+
+.title {
+    min-width: 0;
+}
+
+.title h1 {
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    color: var(--text-primary);
+    font-size: 28px;
+}
+
+.title p {
+    margin-top: 5px;
+
+    color: var(--text-secondary);
+}
+
+.date {
+    margin: 0;
+    padding-right: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-secondary);
+
+    flex-shrink: 0;
+}
+
+.date svg {
+    width: 20px;
+    height: auto;
+}
+
+.container_shopping{
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+
+    width: 50%;
+    height: 50vh;
+}

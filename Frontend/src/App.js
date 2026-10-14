@@ -8,6 +8,7 @@ import Products from './pages//NewProduct';
 import Box from './pages/Box';
 import StockPage from './pages/StockPage';
 import Sales from './pages/Sales';
+import Shop from './pages/Shop';
 
 import './App.css';
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/box" element={<Box />} />
           <Route path="/stock" element={<StockPage />} />
           <Route path="/sales" element={<Sales />} />
+          <Route path="/shop" element={<Shop />} />
 
           <Route path="/login" element={<Dashboard />} />
           <Route path="/testes" element={<Testes />} />
